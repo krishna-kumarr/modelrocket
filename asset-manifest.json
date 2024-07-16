@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/modelRocket/static/css/main.a77bd9ce.css",
-    "main.js": "/modelRocket/static/js/main.51eedea0.js",
-    "static/js/453.c8b04a05.chunk.js": "/modelRocket/static/js/453.c8b04a05.chunk.js",
-    "static/media/modelrocket_ai_logo.png": "/modelRocket/static/media/modelrocket_ai_logo.72d9e24639f34da5f8f9.png",
-    "static/media/businessDeal.png": "/modelRocket/static/media/businessDeal.bb1a251c1089d4599038.png",
-    "static/media/slick.svg": "/modelRocket/static/media/slick.2630a3e3eab21c607e21.svg",
-    "static/media/slick.eot": "/modelRocket/static/media/slick.a4e97f5a2a64f0ab1323.eot",
-    "static/media/slick.ttf": "/modelRocket/static/media/slick.c94f7671dcc99dce43e2.ttf",
-    "static/media/slick.woff": "/modelRocket/static/media/slick.295183786cd8a1389865.woff",
-    "index.html": "/modelRocket/index.html",
-    "main.a77bd9ce.css.map": "/modelRocket/static/css/main.a77bd9ce.css.map",
-    "main.51eedea0.js.map": "/modelRocket/static/js/main.51eedea0.js.map",
-    "453.c8b04a05.chunk.js.map": "/modelRocket/static/js/453.c8b04a05.chunk.js.map"
+    "main.css": "/modelrocket/static/css/main.cc65c2b1.css",
+    "main.js": "/modelrocket/static/js/main.729e1b25.js",
+    "static/js/453.c8b04a05.chunk.js": "/modelrocket/static/js/453.c8b04a05.chunk.js",
+    "static/media/modelrocket_ai_logo.png": "/modelrocket/static/media/modelrocket_ai_logo.72d9e24639f34da5f8f9.png",
+    "static/media/businessDeal.png": "/modelrocket/static/media/businessDeal.bb1a251c1089d4599038.png",
+    "static/media/slick.svg": "/modelrocket/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/modelrocket/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/modelrocket/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/modelrocket/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/modelrocket/index.html",
+    "main.cc65c2b1.css.map": "/modelrocket/static/css/main.cc65c2b1.css.map",
+    "main.729e1b25.js.map": "/modelrocket/static/js/main.729e1b25.js.map",
+    "453.c8b04a05.chunk.js.map": "/modelrocket/static/js/453.c8b04a05.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a77bd9ce.css",
-    "static/js/main.51eedea0.js"
+    "static/css/main.cc65c2b1.css",
+    "static/js/main.729e1b25.js"
   ]
 }
