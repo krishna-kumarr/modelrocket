@@ -9,7 +9,7 @@ import ProductDetails from "./Component/ProductDetails";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Toaster />
       <Routes>
         <Route path="/" element={<AuthPage />}>
