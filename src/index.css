@@ -396,9 +396,14 @@ code {
 }
 
 .attribute-content-height{
-  height: 14rem !important;
+  height: 16rem !important;
 }
 
 .form-select.selecctBox-font-size{
   font-size: .85rem;
+}
+
+.product-details-no-data-img{
+  height: 7rem;
+  width: 11rem !important;
 }

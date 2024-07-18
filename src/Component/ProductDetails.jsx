@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { one } from "../Component/assets/one.png";
+import { two } from "../Component/assets/two.png";
+
 
 const ProductDetails = () => {
     const [breadcumHtml, setBreadcumHtml] = useState([]);
@@ -59,16 +62,27 @@ const ProductDetails = () => {
         { folderName: "TRAVELINSURED", id: 3 },
     ]);
 
+
+    // question modal box 
     const [qestionDialogAddOptions, setQuestionDialogAddOptions] = useState(false);
     const [option, setOption] = useState('');
     const [questionArray, setQuestionArray] = useState([]);
+    const [questionModalError, setQuestionModalError] = useState(false);
+    const [questionEditIndex, setQuestionEditIndex] = useState(-1);
+    const [questionEdit, setQuestionEdit] = useState(false)
     const [newQuestion, setNewQuestion] = useState({
         question: '',
         questionType: '',
         options: [],
         tooltip: ''
     })
-    const [questionModalError, setQuestionModalError] = useState(false);
+
+
+    //attribute modal box
+    const [attributesArray, setAttributesArray] = useState([]);
+    const [attributesArrayModal, setAttributesArrayModal] = useState([]);
+    const [attributeAddOptions, setAttributeAddOptions] = useState(false);
+    const [attribute, setAttribute] = useState('');
 
 
 
@@ -249,8 +263,9 @@ const ProductDetails = () => {
     }
 
     const handleAddOptions = () => {
-        setQuestionDialogAddOptions(false);
         if (option !== '') {
+            setQuestionDialogAddOptions(false);
+
             const newOption = { ...newQuestion }
             const alterOptions = newOption.options
             alterOptions[alterOptions.length] = option
@@ -270,10 +285,13 @@ const ProductDetails = () => {
     }
 
     const handleSaveQuestion = () => {
-        if (newQuestion.question === '' || newQuestion.questionType === '' || newQuestion.options.length === 0 || newQuestion.tooltip === '') {
+        if (newQuestion.question === '') {
             setQuestionModalError(true);
         }
-        else if (newQuestion.question === '' || newQuestion.questionType === 'Short answer' || newQuestion.tooltip === '') {
+        else if (newQuestion.tooltip === '') {
+            setQuestionModalError(true);
+        }
+        else if (newQuestion.questionType !== 'Short answer' && newQuestion.options.length === 0) {
             setQuestionModalError(true);
         }
         else {
@@ -292,12 +310,12 @@ const ProductDetails = () => {
             case "Short answer":
                 return <input type="text" value={options} className="border-1 border-gray py-2 px-2 rounded-1 w-100" />
             case "Checkbox":
-                return <div className="row">
+                return <div className="row px-3">
                     {
                         options.map((val, ind) => {
                             return <div class="form-check mb-0 col-6" key={ind}>
-                                <input class="form-check-input" type="checkbox" value={val} id={`flexCheck${ind}`} />
-                                <label class="form-check-label w-100" for={`flexCheck${ind}`}>
+                                <input class="form-check-input cursor-pointer" type="checkbox" value={val} id={`flexCheck${ind}`} />
+                                <label class="form-check-label w-100 cursor-pointer" for={`flexCheck${ind}`}>
                                     {val}
                                 </label>
                             </div>
@@ -332,9 +350,6 @@ const ProductDetails = () => {
         }
     }
 
-    const [questionEditIndex, setQuestionEditIndex] = useState(-1);
-    const [questionEdit, setQuestionEdit] = useState(false)
-
     const handleOpenQuestionModel = () => {
         setQuestionModalError(false);
 
@@ -355,8 +370,7 @@ const ProductDetails = () => {
         }
     }
 
-
-    const handleQuestionModelEdit = (value,index) => {
+    const handleQuestionModelEdit = (value, index) => {
         setQuestionEdit(true);
         setQuestionEditIndex(index)
         setNewQuestion({
@@ -371,17 +385,53 @@ const ProductDetails = () => {
         }, 10)
     }
 
-    const handleUpdateEditQuestion = () =>{
-        setQuestionEdit(false);
-        const updateQuestionList = questionArray.map((v,i)=>{
-            return i===questionEditIndex ? newQuestion : v
+    const handleUpdateEditQuestion = () => {
+        if (newQuestion.question === '') {
+            setQuestionModalError(true);
+        }
+        else if (newQuestion.tooltip === '') {
+            setQuestionModalError(true);
+        }
+        else if (newQuestion.questionType !== 'Short answer' && newQuestion.options.length === 0) {
+            setQuestionModalError(true);
+        }
+        else {
+            setQuestionModalError(false);
+
+            setQuestionEdit(false);
+            const updateQuestionList = questionArray.map((v, i) => {
+                return i === questionEditIndex ? newQuestion : v
+            })
+
+            setQuestionArray(updateQuestionList);
+            document.getElementById('closeQuestionModel').click();
+        }
+    }
+
+
+    const handleAddAttribute = () => {
+        if (attribute !== '') {
+            setAttributeAddOptions(false);
+
+            const newAttributes = [...attributesArrayModal]
+            newAttributes[newAttributes.length] = attribute
+
+            setAttributesArrayModal(newAttributes)
+        }
+    }
+
+    const handleDeleteAttribute = (index) => {
+        const deletedAttribute = attributesArrayModal.filter((v, i) => {
+            return i !== index
         })
 
-        setQuestionArray(updateQuestionList);
-        document.getElementById('closeQuestionModel').click();
+        setAttributesArrayModal(deletedAttribute)
     }
-    
 
+    const handleSaveAttributesModal = () => {
+        setAttributesArray(attributesArrayModal);
+        document.getElementById('closeAttributeModel').click()
+    }
 
     return (
         <>
@@ -451,7 +501,7 @@ const ProductDetails = () => {
                                                                     <div className="col-4">
                                                                         {handleDynamicQuestionType(value.questionType, value.options)}
                                                                     </div>
-                                                                    <div className="col-1 cursor-pointer" onClick={() => handleQuestionModelEdit(value,index)}>
+                                                                    <div className="col-1 cursor-pointer" onClick={() => handleQuestionModelEdit(value, index)}>
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
@@ -460,8 +510,10 @@ const ProductDetails = () => {
                                                                 </div>
                                                             })
                                                             :
-                                                            <div className="row h-100 align-items-center text-center">
-                                                                <p className="mb-0">No Data Found</p>
+                                                            <div className="row justify-content-center text-center">
+                                                                <img src={require('../Component/assets/two.png')} className="product-details-no-data-img" />
+                                                                <h6 className="pt-3">Start by adding a question</h6>
+                                                                <p>Click on the button at the top to add a new question</p>
                                                             </div>
                                                     }
 
@@ -478,7 +530,7 @@ const ProductDetails = () => {
                                                 <h6 className="fw-bold mb-0">Add Attribute</h6>
                                             </div>
                                             <div className="col text-end pe-0">
-                                                <button type="button" className="btn btn-primary py-1 px-3 button-font-size rounded-1">
+                                                <button type="button" className="btn btn-primary py-1 px-3 button-font-size rounded-1" data-bs-toggle="modal" data-bs-target="#attributeModel" id='attributeModelBox'>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-plus me-2" viewBox="0 0 16 16">
                                                         <path d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z" />
                                                         <path d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5" />
@@ -489,25 +541,25 @@ const ProductDetails = () => {
                                         </div>
 
                                         <div className="col-12 px-1 py-3">
-                                            <div className="card border-0 background-gray py-5 px-5 rounded-4 attribute-content-height overflowY">
+                                            <div className="card border-0 background-gray pt-4 px-5 rounded-4 attribute-content-height overflowY">
                                                 <div className="card-body paragraph-font-size">
-                                                    <div className="row gy-3">
-                                                        <div className="col-6">
-                                                            <input type="text" value="hi" className="border-0 py-2 px-2 rounded-1 w-100" />
-                                                        </div>
+                                                    {
+                                                        attributesArray.length > 0 ?
+                                                            <div className="row gy-3">
+                                                                {attributesArray.map((attributes, attributeIndex) => {
+                                                                    return <div className="col-6" key={attributeIndex}>
+                                                                        <input type="text" value={attributes} className="border-0 py-2 px-2 rounded-1 w-100" />
+                                                                    </div>
+                                                                })}
+                                                            </div>
+                                                            :
+                                                            <div className="row justify-content-center text-center">
+                                                                <img src={require('../Component/assets/two.png')} className="product-details-no-data-img" />
+                                                                <h6 className="pt-3">Start by adding a question</h6>
+                                                                <p>Click on the button at the top to add a new question</p>
+                                                            </div>
+                                                    }
 
-                                                        <div className="col-6">
-                                                            <input type="text" value="hi" className="border-0 py-2 px-2 rounded-1 w-100" />
-                                                        </div>
-
-                                                        <div className="col-6">
-                                                            <input type="text" value="hi" className="border-0 py-2 px-2 rounded-1 w-100" />
-                                                        </div>
-
-                                                        <div className="col-6">
-                                                            <input type="text" value="hi" className="border-0 py-2 px-2 rounded-1 w-100" />
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -603,8 +655,71 @@ const ProductDetails = () => {
                             {
                                 questionEdit ?
                                     <button type="button" class="btn btn-primary rounded-1" onClick={handleUpdateEditQuestion}>Update</button>
-                                :
+                                    :
                                     <button type="button" class="btn btn-primary rounded-1" onClick={handleSaveQuestion}>Save</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Add Attribute modal  */}
+            <div class="modal fade" id="attributeModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-md">
+                    <div class="modal-content paragraph-font-size px-4 py-2">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title fw-bold" id="staticBackdropLabel">Add & Edit Attribute</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAttributeModel"></button>
+                        </div>
+                        <div class="modal-body my-3 mb-5">
+                            <div>
+                                {
+                                    attributesArrayModal.map((v, i) => {
+                                        return <div className="row pb-1 align-items-center" key={i}>
+                                            <div className="col-9">
+                                                {i + 1}.{v}
+                                            </div>
+                                            <div className="col-3">
+                                                <button type="button" className="btn text-danger" onClick={() => handleDeleteAttribute(i)}>Delete</button>
+                                            </div>
+                                        </div>
+                                    })
+                                }
+
+                                {
+                                    attributeAddOptions ?
+                                        <div className="col-12 row ">
+                                            <div className="col-11">
+                                                <input type="text" className="form-control rounded-0 border-0 border-bottom border-dark w-100" onChange={(e) => setAttribute(e.target.value)} />
+                                            </div>
+                                            <div className="col-1">
+                                                <button type="button" class="btn rounded-1" onClick={() => handleAddAttribute()}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
+                                                        <path d="M11 2H9v3h2z" />
+                                                        <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        :
+                                        attributesArrayModal.length < 4 ?
+                                            <div>
+                                                <p className="text-decoration-underline cursor-pointer pt-1" onClick={() => {
+                                                    setAttribute('')
+                                                    setAttributeAddOptions(true)
+                                                }}>Click here to add Attributes</p>
+                                            </div>
+                                            :
+                                            null
+                                }
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0">
+                            {
+                                questionEdit ?
+                                    <button type="button" class="btn btn-primary rounded-1" onClick={handleSaveAttributesModal}>Update</button>
+                                    :
+                                    <button type="button" class="btn btn-primary rounded-1" onClick={handleSaveAttributesModal}>Save</button>
                             }
                         </div>
                     </div>
