@@ -33,6 +33,7 @@ code {
 /* width */
 ::-webkit-scrollbar {
   width: .7rem;
+  scroll-behavior: smooth;
 }
 
 /* Track */
@@ -208,12 +209,32 @@ code {
 
 
 /* Custom styles for accordion */
+.content-product-details-height{
+  height:calc(var(--main-body-height) - 3vh);
+}
+
+.accordion-breadcum-height{
+  height: 4rem;
+}
+
+.accordion-breadcum-content-height{
+  height:calc(var(--main-body-height) - 7rem);
+}
+
 .hideScollbar::-webkit-scrollbar {
   width: 0;
 }
 
+.accordion-button:focus{
+  box-shadow: none !important;
+}
+
 .accordion-button{
   font-size: .8rem !important;
+}
+
+.accordion-button.active:not(.collapsed){
+  background-color: rgba(61, 137, 244, 0.162) !important;
 }
 
 .accordion{
@@ -221,11 +242,11 @@ code {
 }
 
 .accordion-button::before {
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-folder-plus' viewBox='0 0 16 16'><path d='m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z'/><path d='M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5'/></svg>") !important;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-right' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708'/></svg>") !important;
 }
 
 .accordion-button:not(.collapsed)::before {
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-folder-minus' viewBox='0 0 16 16'><path d='m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z'/><path d='M11 11.5a.5.5 0 0 1 .5-.5h4a.5.5 0 1 1 0 1h-4a.5.5 0 0 1-.5-.5'/></svg>") !important;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-chevron-down' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708'/></svg>") !important;
 }
 
 .accordion-button:not(.collapsed) { 
@@ -237,10 +258,18 @@ code {
   box-shadow: transparent !important;
 }
 
+.button-font-size{
+  font-size: .8rem !important;
+}
+
+.accordion-item {
+  padding: .25rem 0 !important;
+}
+
 .accordion-button::before {
   flex-shrink: 0;
   width: var(--bs-accordion-btn-icon-width);
-  height: var(--bs-accordion-btn-icon-width);
+  height: 1rem;
   margin-right: 1rem;
   content: "";
   background-image: var(--bs-accordion-btn-icon);
@@ -272,12 +301,12 @@ code {
   box-shadow: none !important;
 }
 
-.accordion-button.accordion-button-one::before {
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-folder-plus' viewBox='0 0 16 16'><path d='m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z'/><path d='M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5'/></svg>") !important;
+.accordion-button.accordion-button-one::before,.accordion-button.accordion-button-one.active::before{
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-chevron-right' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708'/></svg>") !important;
 }
 
-.accordion-button.accordion-button-one:not(.collapsed)::before {
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-folder-minus' viewBox='0 0 16 16'><path d='m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z'/><path d='M11 11.5a.5.5 0 0 1 .5-.5h4a.5.5 0 1 1 0 1h-4a.5.5 0 0 1-.5-.5'/></svg>") !important;
+.accordion-button.accordion-button-one:not(.collapsed)::before,.accordion-button.accordion-button-one.active:not(.collapsed)::before  {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-chevron-down' viewBox='0 0 16 16'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708'/></svg>") !important;
 }
 
 .accordion-button.accordion-button-one:not(.collapsed) {
@@ -291,13 +320,18 @@ code {
 }
 
 .accordion-button-one{
-  background-color: rgba(10, 4, 32, 0.84) !important;
+  background-color: rgba(61, 137, 244, 0.84) !important;
   color: white !important;
-  font-size: .9rem !important;
+  font-size: .8rem !important;
 }
 
-.accordion-item>.accordion-header .accordion-button {
-  border-radius: 6px !important;
+.accordion-button-border-left{
+  border-left: 6px solid rgba(61, 137, 244, 0.308) !important;
+  border-radius: 6px;
+}
+
+.accordion-item .accordion-header .accordion-button {
+  border-radius: 0px !important;
 }
 
 .accordion-item {
@@ -322,4 +356,49 @@ code {
 .accordion-body {
   padding: 10px 20px; /* Padding inside accordion content */
   border-top: 1px solid #dee2e6; /* Border color above accordion content */
+}
+
+.question-content-height{
+  height: 17rem !important;
+}
+
+.question-content-height::-webkit-scrollbar {
+  width: .4rem;
+}
+
+.background-gray{
+  background-color: rgba(128, 128, 128, 0.088) !important;
+}
+
+.paragraph-font-size{
+  font-size: .85rem;
+  font-weight: 400;
+  color: rgb(42, 38, 38);
+}
+
+.border-gray {
+  --bs-border-opacity: 1;
+  border-color: rgb(108 117 125 / 29%) !important;
+}
+
+.form-check-input:checked{
+  background-color: #1b1b1b !important;
+  border-color: #1b1b1b !important;
+}
+
+.form-check-input:focus{
+  border-color:transparent !important;
+  box-shadow: none !important;
+}
+
+.cursor-pointer{
+  cursor: pointer;
+}
+
+.attribute-content-height{
+  height: 14rem !important;
+}
+
+.form-select.selecctBox-font-size{
+  font-size: .85rem;
 }

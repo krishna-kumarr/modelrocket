@@ -26,6 +26,24 @@ const AuthPage = () => {
     localStorage.removeItem("product_id")
     localStorage.removeItem("isAdmin")
   }
+
+  const handleBreadCum = () => {
+    const paths = ['/modelrocket/admin', '/modelrocket/product-details', '/admin', '/product-details'];
+
+    if (!paths.includes(window.location.pathname)) {
+      return <div className="content-breadcrumps-height d-flex align-items-end border-dark border-1 border-bottom">
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb bg-light p-2 rounded-1 mb-0">
+            <li className="breadcrumb-item">
+              <Link to={"/"} className='text-decoration-none text-dark link-fontWeight' onClick={removeLocalStorage}>Home</Link>
+            </li>
+            {crumbs}
+          </ol>
+        </nav>
+      </div>
+    }
+  }
+
   return (
     <div className="vh-100">
       <Navbar />
@@ -34,23 +52,9 @@ const AuthPage = () => {
         <div className="h-100">
           <div className="container">
 
-
-            {/* {
-              window.location.pathname !== "/admin" ?
-                <div className="content-breadcrumps-height d-flex align-items-end border-dark border-1 border-bottom">
-                  <nav aria-label="breadcrumb">
-                    <ol className="breadcrumb bg-light p-2 rounded-1 mb-0">
-                      <li className="breadcrumb-item">
-                        <Link to={"/"} className='text-decoration-none text-dark link-fontWeight' onClick={removeLocalStorage}>Home</Link>
-                      </li>
-                      {crumbs}
-                    </ol>
-                  </nav>
-                </div>
-
-                :
-                null
-            } */}
+            {
+              handleBreadCum()
+            }
 
             <Outlet />
 
