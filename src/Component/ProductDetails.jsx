@@ -316,44 +316,56 @@ const ProductDetails = () => {
 
     const handleDynamicQuestionType = (questionType, condition, options) => {
         if (questionType === "Dropdown") {
-            return <select className="py-2 border-1 border-gray py-1 rounded-1 w-100" >
-                {
-                    options.map((val, ind) => {
-                        return <option value={val}>{val}</option>
-                    })
-                }
-            </select>
+            return <div className="row">
+                <span><span className="fw-bold pe-2">Value:</span>
+                    <select className="py-2 border-1 border-gray py-1 rounded-1 w-100" >
+                        {
+                            options.map((val, ind) => {
+                                return <option value={val}>{val}</option>
+                            })
+                        }
+                    </select>
+                </span>
+            </div>
         } else if (questionType === "Values") {
             switch (condition) {
                 case "in":
-                    return <select className="py-2 border-1 border-gray py-1 rounded-1 w-100" >
-                        {
-                            options.map((val, ind) => {
-                                return <option value={val}>{val}</option>
-                            })
-                        }
-                    </select>
+                    return <div className="row">
+                        <span><span className="fw-bold pe-2">Value:</span>
+                            <select className="py-2 border-1 border-gray py-1 rounded-1 w-100" >
+                                {
+                                    options.map((val, ind) => {
+                                        return <option value={val}>{val}</option>
+                                    })
+                                }
+                            </select>
+                        </span>
+                    </div>
                 case "notin":
-                    return <select className="py-2 border-1 border-gray py-1 rounded-1 w-100" >
-                        {
-                            options.map((val, ind) => {
-                                return <option value={val}>{val}</option>
-                            })
-                        }
-                    </select>
+                    return <div className="row">
+                        <span><span className="fw-bold pe-2">Value:</span>
+                            <select className="py-2 border-1 border-gray py-1 rounded-1 w-100" >
+                                {
+                                    options.map((val, ind) => {
+                                        return <option value={val}>{val}</option>
+                                    })
+                                }
+                            </select>
+                        </span>
+                    </div>
                 default:
                     break;
             }
         } else {
             switch (condition) {
                 case "<":
-                    return  <div className="row">
+                    return <div className="row">
                         <span><span className="fw-bold pe-2">Value:</span>
                             <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 pe-none" />
                         </span>
                     </div>
                 case "<=":
-                    return  <div className="row">
+                    return <div className="row">
                         <span><span className="fw-bold pe-2">Value:</span>
                             <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 pe-none" />
                         </span>
@@ -365,7 +377,7 @@ const ProductDetails = () => {
                         </span>
                     </div>
                 case ">=":
-                    return  <div className="row">
+                    return <div className="row">
                         <span><span className="fw-bold pe-2">Value:</span>
                             <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 pe-none" />
                         </span>
@@ -727,12 +739,12 @@ const ProductDetails = () => {
                                                                     }
                                                                     <div className="col-6">
                                                                         <div className="ps-3">
-                                                                        {handleDynamicQuestionType(value.questionType, value.condition, value.options)}
+                                                                            {handleDynamicQuestionType(value.questionType, value.condition, value.options)}
                                                                         </div>
                                                                     </div>
 
                                                                     <div className="col-6 pt-2">
-                                                                        <p className="text-gray ps-3"><span className="fw-bold pe-2">Tooltip:</span>{value.tooltip!=='' ? value.tooltip : "tooltip content is empty"}</p>
+                                                                        <p className="text-gray ps-3"><span className="fw-bold pe-2">Tooltip:</span>{value.tooltip !== '' ? value.tooltip : "tooltip content is empty"}</p>
                                                                     </div>
 
                                                                 </div>
