@@ -485,13 +485,28 @@ const ProductDetails = () => {
                     <select id="modalCondition" className={`${questionModalError && newQuestion.condition === '' ? "border-danger" : "border-gray"} mt-2 form-select selecctBox-font-size border-1 rounded-1 w-100`} value={newQuestion.condition} onChange={(e) => handleSelectBoxCondition(e)}>
                         <option value="">Select</option>
                         <option value="in">{`in`}</option>
-                        <option value="notin">{`notin`}</option>
+                        <option value="notin">{`not in`}</option>
                     </select>
                 </div>
             default:
                 break;
         }
 
+    }
+
+    const handleEditOptionKeyDown = (e) => {
+        if (e.key === "Enter") {
+            if (newQuestion.questionType === "Numeric") {
+                const newOption = { ...newQuestion }
+                newOption.options = [option]
+                setNewQuestion(newOption)
+            } else {
+                const newOption = { ...newQuestion }
+                newOption.options[newOption.options.length] = option
+                setNewQuestion(newOption)
+            }
+            setQuestionDialogAddOptions(false)
+        }
     }
 
     const handleEditOptionInput = (e, index) => {
@@ -741,7 +756,7 @@ const ProductDetails = () => {
                                         {
                                             updateButton ?
                                                 <div className="col-12 text-end mb-3">
-                                                    <button type="button" className="btn btn-primary button-font-size rounded-2 py-1" onClick={()=>setUpdateButton(false)}>Update</button>
+                                                    <button type="button" className="btn btn-success button-font-size rounded-2 py-1" onClick={() => setUpdateButton(false)}>Update</button>
                                                 </div>
                                                 :
                                                 null
@@ -770,8 +785,7 @@ const ProductDetails = () => {
                                                             questionArray.map((value, index) => {
                                                                 return <div className="col-12 row py-2 border-bottom pt-3" key={index}>
                                                                     <div className="col-10">
-                                                                        <h6 className="fw-bold">Question {index + 1}:</h6>
-                                                                        <p className="text-gray ps-3"><span className="fw-bold pe-2">Question:</span>{value.question}</p>
+                                                                        <p className="text-gray ps-3"><span className="fw-bold pe-2">Question  {index + 1}:</span>{value.question}</p>
                                                                     </div>
 
                                                                     <div className="col-1 cursor-pointer text-end" onClick={() => handleQuestionModelEdit(value, index)}>
@@ -800,6 +814,7 @@ const ProductDetails = () => {
                                                                             :
                                                                             null
                                                                     }
+
                                                                     <div className="col-6">
                                                                         <div className="ps-3">
                                                                             {handleDynamicQuestionType(value.questionType, value.condition, value.options)}
@@ -909,9 +924,9 @@ const ProductDetails = () => {
                                             <div className="col-11">
                                                 {
                                                     newQuestion.questionType === "Numeric" ?
-                                                        <input type="number" className="form-control rounded-2 border-gray w-100" onChange={(e) => setOption(e.target.value)} />
+                                                        <input type="number" className="form-control rounded-2 border-gray w-100" onChange={(e) => setOption(e.target.value)} onKeyDown={(e) => handleEditOptionKeyDown(e)} />
                                                         :
-                                                        <input type="text" className="form-control rounded-2 border-gray w-100" onChange={(e) => setOption(e.target.value)} />
+                                                        <input type="text" className="form-control rounded-2 border-gray w-100" onChange={(e) => setOption(e.target.value)} onKeyDown={(e) => handleEditOptionKeyDown(e)} />
 
                                                 }
                                             </div>
