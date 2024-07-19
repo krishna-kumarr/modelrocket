@@ -213,6 +213,11 @@ code {
   height:calc(var(--main-body-height) - 3vh);
 }
 
+.client-no-data-img{
+  height: 12rem !important;
+  width: 15rem !important;
+}
+
 .accordion-breadcum-height{
   height: 4rem;
 }

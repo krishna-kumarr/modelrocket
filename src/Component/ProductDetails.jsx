@@ -3,62 +3,68 @@ import { useEffect, useState } from "react";
 const ProductDetails = () => {
     const [breadcumHtml, setBreadcumHtml] = useState([]);
     const [breadcum, setBreadcum] = useState([]);
-    const data = [
+    const [displayAccordionData, setDisplayAccordionData] = useState([]);
+    const [selectedClient, setSelectedClient] = useState('');
+    const [clients, setClients] = useState(["Toyato", "Tata", "Maruti", "Hyundai"])
+    const array = [
         {
-            folderName: "TOYATO", id: 1, subFolder: [
+            clientName: 'Toyato', data: [
                 {
-                    folderName: "SUV", id: 11, subFolder: [
+                    folderName: "TOYATO", id: 1, subFolder: [
                         {
-                            folderName: "Rav4",
-                            id: 111,
-                            subFolder: [
+                            folderName: "SUV", id: 11, subFolder: [
                                 {
-                                    folderName: "Rav4 LE", id: 1111, subFolder: [
+                                    folderName: "Rav4",
+                                    id: 111,
+                                    subFolder: [
                                         {
-                                            folderName: "Rav4 XLE",
-                                            id: 11111
-                                        },
-                                        {
-                                            folderName: "Rav4 XLE Premium",
-                                            id: 11112
-                                        },
-                                        {
-                                            folderName: "Rav4 Adventure",
-                                            id: 11113
-                                        },
-                                        {
-                                            folderName: "Rav4 TRD Off-Road",
-                                            id: '11114'
-                                        },
-                                        {
-                                            folderName: "Rav4 Limited",
-                                            id: 11115
+                                            folderName: "Rav4 LE", id: 1111, subFolder: [
+                                                {
+                                                    folderName: "Rav4 XLE",
+                                                    id: 11111
+                                                },
+                                                {
+                                                    folderName: "Rav4 XLE Premium",
+                                                    id: 11112
+                                                },
+                                                {
+                                                    folderName: "Rav4 Adventure",
+                                                    id: 11113
+                                                },
+                                                {
+                                                    folderName: "Rav4 TRD Off-Road",
+                                                    id: '11114'
+                                                },
+                                                {
+                                                    folderName: "Rav4 Limited",
+                                                    id: 11115
+                                                }
+                                            ]
                                         }
                                     ]
+                                },
+                                {
+                                    folderName: "Highlander", id: 112
+                                },
+                                {
+                                    folderName: "4Runner", id: 113
+                                },
+                                {
+                                    folderName: "Sequaia", id: 114
                                 }
                             ]
                         },
-                        {
-                            folderName: "Highlander", id: 112
-                        },
-                        {
-                            folderName: "4Runner", id: 113
-                        },
-                        {
-                            folderName: "Sequaia", id: 114
-                        }
-                    ]
+                        { folderName: "Sedan", id: 12 },
+                        { folderName: "Truck", id: 13 },
+                        { folderName: "Hybrid/Electric", id: 14 },
+                        { folderName: "Sports Car", id: 15 }
+                    ],
                 },
-                { folderName: "Sedan", id: 12 },
-                { folderName: "Truck", id: 13 },
-                { folderName: "Hybrid/Electric", id: 14 },
-                { folderName: "Sports Car", id: 15 }
-            ],
-        },
-        { folderName: "UNDERCONSUMER", id: 2 },
-        { folderName: "TRAVELINSURED", id: 3 },
+                { folderName: "UNDERCONSUMER", id: 2 },
+                { folderName: "TRAVELINSURED", id: 3 },
+            ]
+        }
     ]
-
 
     // question modal box 
     const [qestionDialogAddOptions, setQuestionDialogAddOptions] = useState(false);
@@ -81,6 +87,15 @@ const ProductDetails = () => {
     const [attributesArrayModal, setAttributesArrayModal] = useState(['Carat', 'Clarity', 'Color', 'Cut']);
 
 
+    const handleSelectClient = (e) => {
+        setSelectedClient(e.target.value);
+        const selectedClientData = array.filter((v)=>{
+            return v.clientName === e.target.value ? v : null
+        }) 
+
+        setDisplayAccordionData(selectedClientData.length>0 ? selectedClientData[0].data : [])
+    }
+
     useEffect(() => {
         setTimeout(() => {
             const breadcumHtmlCollection = document.getElementsByClassName('accordion-collapse collapse show');
@@ -102,7 +117,7 @@ const ProductDetails = () => {
                 }
             }
         }, 500)
-    }, [])
+    }, [displayAccordionData])
 
 
     const handleBreadCum = (breadCumValue, breadCumAccordinId) => {
@@ -416,7 +431,7 @@ const ProductDetails = () => {
     const handleConditions = () => {
         switch (newQuestion.questionType) {
             case "Numeric":
-                return <div className="col-6 mt-3">
+                return <div className="col-12 mt-3">
                     <label htmlFor="modalCondition">Condition</label>
                     <select id="modalCondition" className={`${questionModalError && newQuestion.condition === '' ? "border-danger" : "border-gray"} mt-2 form-select selecctBox-font-size border-1 rounded-1 w-100`} value={newQuestion.condition} onChange={(e) => handleSelectBoxCondition(e)}>
                         <option value="">Select</option>
@@ -427,7 +442,7 @@ const ProductDetails = () => {
                     </select>
                 </div>
             case "Values":
-                return <div className="col-6 mt-3">
+                return <div className="col-12 mt-3">
                     <label htmlFor="modalCondition">Condition</label>
                     <select id="modalCondition" className={`${questionModalError && newQuestion.condition === '' ? "border-danger" : "border-gray"} mt-2 form-select selecctBox-font-size border-1 rounded-1 w-100`} value={newQuestion.condition} onChange={(e) => handleSelectBoxCondition(e)}>
                         <option value="">Select</option>
@@ -441,14 +456,14 @@ const ProductDetails = () => {
 
     }
 
-    const handleEditOptionInput =(e,index)=>{
-        const editedOptions = newQuestion.options.map((v,i)=>{
-            return i===index ? e.target.value : v
+    const handleEditOptionInput = (e, index) => {
+        const editedOptions = newQuestion.options.map((v, i) => {
+            return i === index ? e.target.value : v
         })
 
-        const newOption = { ...newQuestion } 
-        newOption.options = editedOptions  
-        setNewQuestion(newOption)     
+        const newOption = { ...newQuestion }
+        newOption.options = editedOptions
+        setNewQuestion(newOption)
     }
 
     const handleDisplayQuestionModelOptions = () => {
@@ -461,7 +476,7 @@ const ProductDetails = () => {
                             <div className="col-9">
                                 {
                                     questionEdit ?
-                                        <input type="text" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e)=>handleEditOptionInput(e,i)} />
+                                        <input type="text" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e) => handleEditOptionInput(e, i)} />
                                         :
                                         `${i + 1} .${v}`
                                 }
@@ -481,9 +496,9 @@ const ProductDetails = () => {
                     newQuestion.options.map((v, i) => {
                         return <div className="row pb-1 align-items-center" key={i}>
                             <div className="col-9">
-                            {
+                                {
                                     questionEdit ?
-                                        <input type="number" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e)=>handleEditOptionInput(e,i)} />
+                                        <input type="number" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e) => handleEditOptionInput(e, i)} />
                                         :
                                         `${i + 1} .${v}`
                                 }
@@ -504,12 +519,12 @@ const ProductDetails = () => {
                         newQuestion.options.map((v, i) => {
                             return <div className="row pb-1 align-items-center" key={i}>
                                 <div className="col-9">
-                                     {
-                                    questionEdit ?
-                                        <input type="text" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e)=>handleEditOptionInput(e,i)} />
-                                        :
-                                        `${i + 1} .${v}`
-                                }
+                                    {
+                                        questionEdit ?
+                                            <input type="text" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e) => handleEditOptionInput(e, i)} />
+                                            :
+                                            `${i + 1} .${v}`
+                                    }
                                 </div>
                                 <div className="col-3">
                                     <button type="button" className="btn text-danger" onClick={() => handleDeleteOption(i)}>Delete</button>
@@ -586,10 +601,27 @@ const ProductDetails = () => {
                 <div className="container pt-4 h-100">
                     <div className="row h-100 ">
                         <div className="card col-12 col-md-5 h-100 hideScollbar overflowY border-0 rounded-4">
+                            <div className="card-header bg-transparent py-3">
+                                <div className="row align-items-center">
+                                    <div className="col">
+                                        <p className="mb-0 fw-bold">{selectedClient === '' ? 'Client name' : selectedClient}</p>
+                                    </div>
+                                    <div className="col">
+                                        <select class="form-select selecctBox-font-size" onChange={handleSelectClient}>
+                                            <option selected>Select client</option>
+                                            {
+                                                clients.map((v, i) => {
+                                                    return <option value={v}>{v}</option>
+                                                })
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <div className="card-body">
-                                <div className="accordion" id="accordionOne">
-                                    {
-                                        data.map((item, index) => {
+                                {displayAccordionData.length > 0 ?
+                                    <div className="accordion" id="accordionOne">
+                                        {displayAccordionData.map((item, index) => {
                                             return <div className="accordion-item border-0 mb-0" key={index}>
                                                 <div className="accordion-header shadow-sm" id={`heading${item.id}`}>
                                                     <div className={`accordion-button-one rounded d-flex flex-wrap align-items-center`}>
@@ -610,8 +642,13 @@ const ProductDetails = () => {
                                                 </div>
                                             </div>
                                         })
-                                    }
-                                </div>
+                                        }
+                                    </div>
+                                    :
+                                    <div className="row h-100 justify-content-center align-items-center  text-center">
+                                        <img src={require('../Component/assets/one.png')} className="client-no-data-img" alt="no data found" />
+                                    </div>
+                                }
                             </div>
                         </div>
 
@@ -625,7 +662,7 @@ const ProductDetails = () => {
                                                 <h6 className="fw-bold mb-0">Add Questions</h6>
                                             </div>
                                             <div className="col text-end pe-0">
-                                                <button type="button" className="btn btn-primary py-1 px-3 button-font-size rounded-1" data-bs-toggle="modal" data-bs-target="#questionModel" id='questionModelBox' onClick={questionEdit ? null : handleOpenQuestionModel}>
+                                                <button type="button" className="btn btn-primary py-1 px-3 button-font-size rounded-1" data-bs-toggle="modal" data-bs-target="#questionModel" id='questionModelBox' onClick={questionEdit ? null : handleOpenQuestionModel} disabled={displayAccordionData.length > 0 ? false : true}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-folder-plus me-2" viewBox="0 0 16 16">
                                                         <path d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z" />
                                                         <path d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5" />
@@ -688,7 +725,7 @@ const ProductDetails = () => {
                                                 <h6 className="fw-bold mb-0">Add Attribute</h6>
                                             </div>
                                             <div className="col text-end pe-0">
-                                                <button type="button" className="btn btn-primary py-1 px-3 button-font-size rounded-1" data-bs-toggle="modal" data-bs-target="#attributeModel" id='attributeModelBox' onClick={() => setAttributesArrayModal(attributesArray)}>
+                                                <button type="button" className="btn btn-primary py-1 px-3 button-font-size rounded-1" data-bs-toggle="modal" data-bs-target="#attributeModel" id='attributeModelBox' onClick={() => setAttributesArrayModal(attributesArray)} disabled={displayAccordionData.length > 0 ? false : true}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-folder-plus me-2" viewBox="0 0 16 16">
                                                         <path d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z" />
                                                         <path d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5" />
@@ -738,24 +775,21 @@ const ProductDetails = () => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeQuestionModel" onClick={() => setQuestionEdit(false)}></button>
                         </div>
                         <div className="modal-body">
-                            <div className="py-3 row align-items-start">
+                            <div className="py-3 pt-1 row align-items-start">
+                                <div className="col-12 mb-4">
+                                    <label htmlFor="modalType">Type</label>
+                                    <select id="modalType" className={`${questionModalError && newQuestion.questionType === '' ? "border-danger" : "border-gray"} mt-2 form-select selecctBox-font-size border-1 rounded-1 w-100`} value={newQuestion.questionType} onChange={(e) => handleSelectBox(e)}>
+                                        <option value="">Select</option>
+                                        <option value="Dropdown">Dropdown</option>
+                                        <option value="Numeric">Numeric</option>
+                                        <option value="Values">Options</option>
+                                    </select>
+                                </div>
                                 <div className="col-12">
                                     <label htmlFor="modalQuestion">Question</label>
                                     <input type="text" id="modalQuestion" className={`form-control rounded-2 mt-2 rounded-2 ${questionModalError && newQuestion.question === '' ? "border-danger" : "border-gray"}`} value={newQuestion.question} onChange={(e) => setNewQuestion({ ...newQuestion, question: e.target.value })} />
                                 </div>
-                                <div className="col-12 row">
-                                    <div className="col-6 mt-3">
-                                        <label htmlFor="modalType">Type</label>
-                                        <select id="modalType" className={`${questionModalError && newQuestion.questionType === '' ? "border-danger" : "border-gray"} mt-2 form-select selecctBox-font-size border-1 rounded-1 w-100`} value={newQuestion.questionType} onChange={(e) => handleSelectBox(e)}>
-                                            <option value="">Select</option>
-                                            <option value="Dropdown">Dropdown</option>
-                                            <option value="Numeric">Numeric</option>
-                                            <option value="Values">Options</option>
-                                        </select>
-                                    </div>
-
-                                    {handleConditions()}
-                                </div>
+                                {handleConditions()}
                             </div>
 
                             <div className="pt-3 ps-0">
