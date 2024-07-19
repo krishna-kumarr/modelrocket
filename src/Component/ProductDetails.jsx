@@ -83,8 +83,8 @@ const ProductDetails = () => {
 
 
     //attribute modal box
-    const [attributesArray, setAttributesArray] = useState(['Carat', 'Clarity', 'Color', 'Cut']);
-    const [attributesArrayModal, setAttributesArrayModal] = useState(['Carat', 'Clarity', 'Color', 'Cut']);
+    const [attributesArray, setAttributesArray] = useState([]);
+    const [attributesArrayModal, setAttributesArrayModal] = useState([]);
 
 
     const handleSelectClient = (e) => {
@@ -93,7 +93,9 @@ const ProductDetails = () => {
             return v.clientName === e.target.value ? v : null
         })
 
-        setDisplayAccordionData(selectedClientData.length > 0 ? selectedClientData[0].data : [])
+        setDisplayAccordionData(selectedClientData.length > 0 ? selectedClientData[0].data : []);
+        setAttributesArray(selectedClientData.length > 0 ? ['Carat', 'Clarity', 'Color', 'Cut']:[])
+        setAttributesArrayModal(selectedClientData.length > 0 ? ['Carat', 'Clarity', 'Color', 'Cut']:[])
     }
 
     useEffect(() => {
