@@ -119,7 +119,6 @@ const ProductDetails = () => {
         }, 500)
     }, [displayAccordionData])
 
-
     const handleBreadCum = (breadCumValue, breadCumAccordinId) => {
         const breadCumIndex = breadcum.findIndex((v) => {
             return v.value === breadCumValue
@@ -502,7 +501,7 @@ const ProductDetails = () => {
     const handleDisplayQuestionModelOptions = () => {
         if (newQuestion.questionType === 'Dropdown') {
             return <>
-                <p>Values</p>
+                <p className="mb-1">Values</p>
                 {
                     newQuestion.options.length > 0 ?
                         questionEdit ?
@@ -513,7 +512,12 @@ const ProductDetails = () => {
                                             <input type="text" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e) => handleEditOptionInput(e, i)} />
                                         </div>
                                         <div className="col-3">
-                                            <button type="button" className="btn text-danger" onClick={() => handleDeleteOption(i)}>Delete</button>
+                                            <button type="button" className="btn text-danger py-0" onClick={() => handleDeleteOption(i)}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                </svg>
+                                            </button>
                                         </div>
                                     </div>
                                 })}
@@ -525,7 +529,14 @@ const ProductDetails = () => {
                                         return <tr className="table-verticle-align">
                                             <th scope="row">{i + 1}</th>
                                             <td>{v}</td>
-                                            <td className="text-end"><button type="button" className="btn text-danger py-0" onClick={() => handleDeleteOption(i)}>Delete</button></td>
+                                            <td className="text-end">
+                                                <button type="button" className="btn text-danger py-0" onClick={() => handleDeleteOption(i)}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                    </svg>
+                                                </button>
+                                            </td>
                                         </tr>
                                     })}
                                 </tbody>
@@ -537,7 +548,7 @@ const ProductDetails = () => {
         }
         else if (newQuestion.questionType === 'Numeric' && newQuestion.condition !== '') {
             return <>
-                <p>Values</p>
+                <p className="mb-1">Values</p>
                 {
                     newQuestion.options.map((v, i) => {
                         return <div className="row pb-1 align-items-center" key={i}>
@@ -549,8 +560,13 @@ const ProductDetails = () => {
                                         `${i + 1} .${v}`
                                 }
                             </div>
-                            <div className="col-3">
-                                <button type="button" className="btn text-danger" onClick={() => handleDeleteOption(i)}>Delete</button>
+                            <div className="col-3 text-end">
+                                <button type="button" className="btn text-danger py-0" onClick={() => handleDeleteOption(i)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     })
@@ -560,7 +576,7 @@ const ProductDetails = () => {
         else {
             if (newQuestion.questionType === 'Values' && newQuestion.condition !== '') {
                 return <>
-                    <p>Values</p>
+                    <p className="mb-1">Values</p>
                     {
                         newQuestion.options.map((v, i) => {
                             return <div className="row pb-1 align-items-center" key={i}>
@@ -572,8 +588,13 @@ const ProductDetails = () => {
                                             `${i + 1} .${v}`
                                     }
                                 </div>
-                                <div className="col-3">
-                                    <button type="button" className="btn text-danger" onClick={() => handleDeleteOption(i)}>Delete</button>
+                                <div className="col-3 text-end">
+                                    <button type="button" className="btn text-danger py-0" onClick={() => handleDeleteOption(i)}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         })
@@ -595,7 +616,6 @@ const ProductDetails = () => {
             </>
         }
         else if (newQuestion.questionType === 'Values' && newQuestion.condition !== '') {
-            if (newQuestion.options.length === 0) {
                 return <>
                     {questionModalError && newQuestion.options.length === 0 ? <p className="text-danger pt-3">Options required</p> : null}
 
@@ -604,7 +624,6 @@ const ProductDetails = () => {
                         setQuestionDialogAddOptions(true)
                     }}>Click here to add Options</button>
                 </>
-            }
         }
         else {
             if (newQuestion.questionType === 'Numeric' && newQuestion.condition !== '') {
@@ -612,7 +631,7 @@ const ProductDetails = () => {
                     return <>
                         {questionModalError && newQuestion.options.length === 0 ? <p className="text-danger pt-3">Options required</p> : null}
 
-                        <button type="button" className="btn btn-secondary button-font-size rounded-2 pt-1" onClick={() => {
+                        <button type="button" className="btn btn-secondary button-font-size rounded-2 pt-3" onClick={() => {
                             setOption('')
                             setQuestionDialogAddOptions(true)
                         }}>Click here to add Options</button>
@@ -641,9 +660,9 @@ const ProductDetails = () => {
         setAttributesArrayModal(editedAttribute)
     }
 
-    const handleQuestionModelDelete = (deletionInd) =>{
-        const deletingQuestions = questionArray.filter((v,i)=>{
-            return i!==deletionInd
+    const handleQuestionModelDelete = (deletionInd) => {
+        const deletingQuestions = questionArray.filter((v, i) => {
+            return i !== deletionInd
         })
 
         setQuestionArray(deletingQuestions)
@@ -655,7 +674,7 @@ const ProductDetails = () => {
                 <div className="container pt-4 h-100">
                     <div className="row h-100 ">
                         <div className="card col-12 col-md-5 h-100 hideScollbar overflowY border-0 rounded-4">
-                            <div className="card-header bg-transparent py-3">
+                            <div className="card-header py-3 sticky-top bg-white">
                                 <div className="row align-items-center">
                                     <div className="col">
                                         <p className="mb-0 fw-bold">Select client</p>
@@ -808,7 +827,7 @@ const ProductDetails = () => {
                                         </div>
 
                                         <div className="col-12 px-1 py-3">
-                                            <div className="card border-0 background-gray pt-4 px-5 rounded-4 attribute-content-height overflowY">
+                                            <div className="card border-0 background-gray py-4 px-5 rounded-4 overflowY">
                                                 <div className="card-body paragraph-font-size">
                                                     {
                                                         attributesArray.length > 0 ?
@@ -889,7 +908,7 @@ const ProductDetails = () => {
                                             </div>
                                         </div>
                                         :
-                                        <div>
+                                        <div className="mt-2">
                                             {handleGetOptionsFromClient()}
                                         </div>
                                 }
