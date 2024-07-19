@@ -317,8 +317,9 @@ const ProductDetails = () => {
     const handleDynamicQuestionType = (questionType, condition, options) => {
         if (questionType === "Dropdown") {
             return <div className="row">
-                <span><span className="fw-bold pe-2">Value:</span>
-                    <select className="py-2 border-1 border-gray py-1 rounded-1 w-100" >
+                <span>
+                    <span className="fw-bold pe-2">Value:</span>
+                    <select className="py-2 border-1 border-gray py-1 rounded-1 col-8" >
                         {
                             options.map((val, ind) => {
                                 return <option value={val}>{val}</option>
@@ -332,7 +333,7 @@ const ProductDetails = () => {
                 case "in":
                     return <div className="row">
                         <span><span className="fw-bold pe-2">Value:</span>
-                            <select className="py-2 border-1 border-gray py-1 rounded-1 w-100" >
+                            <select className="py-2 border-1 border-gray py-1 rounded-1 col-8" >
                                 {
                                     options.map((val, ind) => {
                                         return <option value={val}>{val}</option>
@@ -344,7 +345,7 @@ const ProductDetails = () => {
                 case "notin":
                     return <div className="row">
                         <span><span className="fw-bold pe-2">Value:</span>
-                            <select className="py-2 border-1 border-gray py-1 rounded-1 w-100" >
+                            <select className="py-2 border-1 border-gray py-1 rounded-1 col-8" >
                                 {
                                     options.map((val, ind) => {
                                         return <option value={val}>{val}</option>
@@ -496,7 +497,7 @@ const ProductDetails = () => {
                         questionEdit ?
                             <div className="col-12 mb-3">
                                 {newQuestion.options.map((v, i) => {
-                                    return <div className="row">
+                                    return <div className="row pb-1">
                                         <div className="col-9">
                                             <input type="text" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e) => handleEditOptionInput(e, i)} />
                                         </div>
