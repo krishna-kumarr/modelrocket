@@ -371,25 +371,25 @@ const ProductDetails = () => {
                 case "<":
                     return <div className="row">
                         <span><span className="fw-bold pe-2">Value:</span>
-                            <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 pe-none" />
+                            <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1" />
                         </span>
                     </div>
                 case "<=":
                     return <div className="row">
                         <span><span className="fw-bold pe-2">Value:</span>
-                            <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 pe-none" />
+                            <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1" />
                         </span>
                     </div>
                 case ">":
                     return <div className="row">
                         <span><span className="fw-bold pe-2">Value:</span>
-                            <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 pe-none" />
+                            <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1" />
                         </span>
                     </div>
                 case ">=":
                     return <div className="row">
                         <span><span className="fw-bold pe-2">Value:</span>
-                            <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 pe-none" />
+                            <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1" />
                         </span>
                     </div>
                 default:
@@ -563,11 +563,11 @@ const ProductDetails = () => {
                                     questionEdit ?
                                         <input type="number" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e) => handleEditOptionInput(e, i)} />
                                         :
-                                        `${i + 1} .${v}`
+                                        v
                                 }
                             </div>
                             <div className="col-3 text-end">
-                                <button type="button" className="btn text-danger py-0" onClick={() => handleDeleteOption(i)}>
+                                <button type="button" className="btn text-danger" onClick={() => handleDeleteOption(i)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
                                         <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
@@ -637,7 +637,7 @@ const ProductDetails = () => {
                     return <>
                         {questionModalError && newQuestion.options.length === 0 ? <p className="text-danger pt-3">Options required</p> : null}
 
-                        <button type="button" className="btn btn-secondary button-font-size rounded-2 pt-3" onClick={() => {
+                        <button type="button" className="btn btn-secondary button-font-size rounded-2 pt-1" onClick={() => {
                             setOption('')
                             setQuestionDialogAddOptions(true)
                         }}>Add Values</button>
@@ -749,7 +749,7 @@ const ProductDetails = () => {
 
                                         <div className="col-12 d-flex flex-wrap align-items-center">
                                             <div className="col">
-                                                <h6 className="fw-bold mb-0">Constrains</h6>
+                                                <h6 className="fw-bold mb-0">Constraints</h6>
                                             </div>
                                             <div className="col text-end pe-0">
                                                 <button type="button" className="btn btn-primary py-1 px-3 button-font-size rounded-1" data-bs-toggle="modal" data-bs-target="#questionModel" id='questionModelBox' onClick={questionEdit ? null : handleOpenQuestionModel} disabled={displayAccordionData.length > 0 ? false : true}>
@@ -770,7 +770,7 @@ const ProductDetails = () => {
                                                             questionArray.map((value, index) => {
                                                                 return <div className="col-12 row py-2 border-bottom pt-3" key={index}>
                                                                     <div className="col-10">
-                                                                        <h6 className="fw-bold">{index + 1}.</h6>
+                                                                        <h6 className="fw-bold">Question {index + 1}:</h6>
                                                                         <p className="text-gray ps-3"><span className="fw-bold pe-2">Question:</span>{value.question}</p>
                                                                     </div>
 
