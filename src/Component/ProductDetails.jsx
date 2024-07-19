@@ -305,7 +305,7 @@ const ProductDetails = () => {
         else if (newQuestion.questionType === 'Numeric' && newQuestion.condition === '') {
             setQuestionModalError(true);
         }
-        else if ((newQuestion.questionType == 'Dropdown' || newQuestion.questionType == 'Values') && newQuestion.options.length === 0) {
+        else if ((newQuestion.questionType == 'Dropdown' || newQuestion.questionType == 'Values' || newQuestion.questionType === 'Numeric') && newQuestion.options.length === 0) {
             setQuestionModalError(true);
         }
         else {
@@ -445,7 +445,7 @@ const ProductDetails = () => {
         else if ((newQuestion.questionType === 'Numeric' && newQuestion.condition === '') || newQuestion.options.length === 0) {
             setQuestionModalError(true);
         }
-        else if ((newQuestion.questionType == 'Dropdown' || newQuestion.questionType == 'Values') && newQuestion.options.length === 0) {
+        else if ((newQuestion.questionType == 'Dropdown' || newQuestion.questionType == 'Values' || newQuestion.questionType === 'Numeric') && newQuestion.options.length === 0) {
             setQuestionModalError(true);
         }
         else {
