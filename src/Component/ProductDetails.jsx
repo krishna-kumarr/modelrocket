@@ -700,7 +700,7 @@ const ProductDetails = () => {
                                                     {
                                                         questionArray.length > 0 ?
                                                             questionArray.map((value, index) => {
-                                                                return <div className="col-12 row py-2" key={index}>
+                                                                return <div className="col-12 row py-2 border-bottom pt-3" key={index}>
                                                                     <div className="col-11">
                                                                         <h6 className="fw-bold">{index + 1}.Question:</h6>
                                                                         <p className="text-gray ps-3">{value.question}</p>
