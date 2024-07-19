@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
-import { one } from "../Component/assets/one.png";
-import { two } from "../Component/assets/two.png";
-
 
 const ProductDetails = () => {
     const [breadcumHtml, setBreadcumHtml] = useState([]);
     const [breadcum, setBreadcum] = useState([]);
-    const [data, setData] = useState([
+    const data = [
         {
             folderName: "TOYATO", id: 1, subFolder: [
                 {
@@ -60,7 +57,7 @@ const ProductDetails = () => {
         },
         { folderName: "UNDERCONSUMER", id: 2 },
         { folderName: "TRAVELINSURED", id: 3 },
-    ]);
+    ]
 
 
     // question modal box 
@@ -74,16 +71,14 @@ const ProductDetails = () => {
         question: '',
         questionType: '',
         options: [],
+        condition: '',
         tooltip: ''
     })
 
 
     //attribute modal box
-    const [attributesArray, setAttributesArray] = useState([]);
-    const [attributesArrayModal, setAttributesArrayModal] = useState([]);
-    const [attributeAddOptions, setAttributeAddOptions] = useState(false);
-    const [attribute, setAttribute] = useState('');
-
+    const [attributesArray, setAttributesArray] = useState(['Carat', 'Clarity', 'Color', 'Cut']);
+    const [attributesArrayModal, setAttributesArrayModal] = useState(['Carat', 'Clarity', 'Color', 'Cut']);
 
 
     useEffect(() => {
@@ -93,7 +88,7 @@ const ProductDetails = () => {
             setBreadcumHtml(breadcumHtmlCollectionArray);
 
             const breadCumsList = []
-            breadcumHtmlCollectionArray.map((v) => {
+            breadcumHtmlCollectionArray.forEach((v) => {
                 const splitId = v.getAttribute('value').split("-")
                 breadCumsList[breadCumsList.length] = { value: splitId[0], id: splitId[splitId.length - 1] }
             })
@@ -107,7 +102,6 @@ const ProductDetails = () => {
                 }
             }
         }, 500)
-
     }, [])
 
 
@@ -119,7 +113,7 @@ const ProductDetails = () => {
         if (breadCumIndex > 0) {
             const sliceBreadCum = breadcumHtml.slice(breadCumIndex)
             if (sliceBreadCum.length >= 0) {
-                sliceBreadCum.map((v, i) => {
+                sliceBreadCum.forEach((v, i) => {
                     const buttonId = v.getAttribute("value")
                     const buttonIdSplit = buttonId.split('-')
                     const buttonData = document.getElementById(buttonIdSplit[1]);
@@ -136,7 +130,7 @@ const ProductDetails = () => {
                     setBreadcumHtml(breadcumHtmlCollectionArray);
 
                     const breadCumsList = []
-                    breadcumHtmlCollectionArray.map((v) => {
+                    breadcumHtmlCollectionArray.forEach((v) => {
                         const splitId = v.getAttribute('value').split("-")
                         breadCumsList[breadCumsList.length] = { value: splitId[0], id: splitId[splitId.length - 1] }
                     })
@@ -166,7 +160,7 @@ const ProductDetails = () => {
                 const sliceBreadCum = breadcumHtml.slice(breadCumIndex)
 
                 if (sliceBreadCum.length >= 0) {
-                    sliceBreadCum.map((v, i) => {
+                    sliceBreadCum.forEach((v, i) => {
                         const buttonId = v.getAttribute("value")
                         const buttonIdSplit = buttonId.split('-')
                         const buttonData = document.getElementById(buttonIdSplit[1]);
@@ -182,7 +176,7 @@ const ProductDetails = () => {
                         setBreadcumHtml(breadcumHtmlCollectionArray);
 
                         const breadCumsList = []
-                        breadcumHtmlCollectionArray.map((v) => {
+                        breadcumHtmlCollectionArray.forEach((v) => {
                             const splitId = v.getAttribute('value').split("-")
                             breadCumsList[breadCumsList.length] = { value: splitId[0], id: splitId[splitId.length - 1] }
                         })
@@ -210,7 +204,7 @@ const ProductDetails = () => {
                     setBreadcumHtml(breadcumHtmlCollectionArray);
 
                     const breadCumsList = []
-                    breadcumHtmlCollectionArray.map((v) => {
+                    breadcumHtmlCollectionArray.forEach((v) => {
                         const splitId = v.getAttribute('value').split("-")
                         breadCumsList[breadCumsList.length] = { value: splitId[0], id: splitId[splitId.length - 1] }
                     })
@@ -263,8 +257,8 @@ const ProductDetails = () => {
     }
 
     const handleAddOptions = () => {
+        setQuestionDialogAddOptions(false);
         if (option !== '') {
-            setQuestionDialogAddOptions(false);
 
             const newOption = { ...newQuestion }
             const alterOptions = newOption.options
@@ -291,7 +285,10 @@ const ProductDetails = () => {
         else if (newQuestion.tooltip === '') {
             setQuestionModalError(true);
         }
-        else if (newQuestion.questionType !== 'Short answer' && newQuestion.options.length === 0) {
+        else if (newQuestion.questionType === '') {
+            setQuestionModalError(true);
+        }
+        else if (newQuestion.questionType === 'Numeric' && newQuestion.condition === '') {
             setQuestionModalError(true);
         }
         else {
@@ -305,48 +302,50 @@ const ProductDetails = () => {
         }
     }
 
-    const handleDynamicQuestionType = (questionType, options) => {
-        switch (questionType) {
-            case "Short answer":
-                return <input type="text" value={options} className="border-1 border-gray py-2 px-2 rounded-1 w-100" />
-            case "Checkbox":
-                return <div className="row px-3">
-                    {
-                        options.map((val, ind) => {
-                            return <div class="form-check mb-0 col-6" key={ind}>
-                                <input class="form-check-input cursor-pointer" type="checkbox" value={val} id={`flexCheck${ind}`} />
-                                <label class="form-check-label w-100 cursor-pointer" for={`flexCheck${ind}`}>
-                                    {val}
-                                </label>
-                            </div>
-                        })
-                    }
-                </div>
-            case "Dropdown":
-                return <select className="py-2 border-1 border-gray py-1 rounded-1 w-100" >
-                    {
-                        options.map((val, ind) => {
-                            return <option value={val}>{val}</option>
-                        })
-                    }
-                </select>
-            case "Radial option":
-                return <div className="row">
-                    {
-                        options.map((val, ind) => {
-                            return <div className="col-6" key={ind}>
-                                <div class="form-check">
-                                    <input class="form-check-input cursor-pointer" type="radio" name="flexRadioDefault" id={`flexRadioDefault1-${val}`} />
-                                    <label class="form-check-label cursor-pointer" for={`flexRadioDefault1-${val}`}>
-                                        {val}
-                                    </label>
-                                </div>
-                            </div>
-                        })
-                    }
-                </div>
-            default:
-                break;
+    const handleDynamicQuestionType = (questionType, condition, options) => {
+        if (questionType === "Dropdown") {
+            return <select className="py-2 border-1 border-gray py-1 rounded-1 w-100" >
+                {
+                    options.map((val, ind) => {
+                        return <option value={val}>{val}</option>
+                    })
+                }
+            </select>
+        } else if (questionType === "Values") {
+            switch (condition) {
+                case "in":
+                    return <select className="py-2 border-1 border-gray py-1 rounded-1 w-100" >
+                        {
+                            options.map((val, ind) => {
+                                return <option value={val}>{val}</option>
+                            })
+                        }
+                    </select>
+                case "notin":
+                    return <select className="py-2 border-1 border-gray py-1 rounded-1 w-100" >
+                        {
+                            options.map((val, ind) => {
+                                return <option value={val}>{val}</option>
+                            })
+                        }
+                    </select>
+                default:
+                    break;
+            }
+        } else {
+            console.log(condition, options)
+            switch (condition) {
+                case "<":
+                    return <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 w-100" />
+                case "<=":
+                    return <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 w-100" />
+                case ">":
+                    return <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 w-100" />
+                case ">=":
+                    return <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 w-100" />
+                default:
+                    break;
+            }
         }
     }
 
@@ -357,17 +356,19 @@ const ProductDetails = () => {
             question: '',
             questionType: '',
             options: [],
+            condition: '',
             tooltip: ''
         })
     }
 
     const handleSelectBox = (e) => {
-        if (e.target.value === 'Short answer') {
-            setNewQuestion({ ...newQuestion, questionType: e.target.value, options: '' });
-        }
-        else {
-            setNewQuestion({ ...newQuestion, questionType: e.target.value, options: [] });
-        }
+        setQuestionDialogAddOptions(false)
+        setNewQuestion({ ...newQuestion, questionType: e.target.value, options: [], condition: '' });
+    }
+
+    const handleSelectBoxCondition = (e) => {
+        setQuestionDialogAddOptions(false)
+        setNewQuestion({ ...newQuestion, condition: e.target.value, options: [] });
     }
 
     const handleQuestionModelEdit = (value, index) => {
@@ -377,6 +378,7 @@ const ProductDetails = () => {
             question: value.question,
             questionType: value.questionType,
             options: value.options,
+            condition: value.condition,
             tooltip: value.tooltip
         });
 
@@ -392,7 +394,10 @@ const ProductDetails = () => {
         else if (newQuestion.tooltip === '') {
             setQuestionModalError(true);
         }
-        else if (newQuestion.questionType !== 'Short answer' && newQuestion.options.length === 0) {
+        else if (newQuestion.questionType === '') {
+            setQuestionModalError(true);
+        }
+        else if ((newQuestion.questionType === 'Numeric' && newQuestion.condition === '') || newQuestion.options.length === 0) {
             setQuestionModalError(true);
         }
         else {
@@ -408,29 +413,171 @@ const ProductDetails = () => {
         }
     }
 
+    const handleConditions = () => {
+        switch (newQuestion.questionType) {
+            case "Numeric":
+                return <div className="col-6 mt-3">
+                    <label htmlFor="modalCondition">Condition</label>
+                    <select id="modalCondition" className={`${questionModalError && newQuestion.condition === '' ? "border-danger" : "border-gray"} mt-2 form-select selecctBox-font-size border-1 rounded-1 w-100`} value={newQuestion.condition} onChange={(e) => handleSelectBoxCondition(e)}>
+                        <option value="">Select</option>
+                        <option value="<">{`<`}</option>
+                        <option value=">">{`>`}</option>
+                        <option value="<=">{`<=`}</option>
+                        <option value=">=">{`>=`}</option>
+                    </select>
+                </div>
+            case "Values":
+                return <div className="col-6 mt-3">
+                    <label htmlFor="modalCondition">Condition</label>
+                    <select id="modalCondition" className={`${questionModalError && newQuestion.condition === '' ? "border-danger" : "border-gray"} mt-2 form-select selecctBox-font-size border-1 rounded-1 w-100`} value={newQuestion.condition} onChange={(e) => handleSelectBoxCondition(e)}>
+                        <option value="">Select</option>
+                        <option value="in">{`in`}</option>
+                        <option value="notin">{`notin`}</option>
+                    </select>
+                </div>
+            default:
+                break;
+        }
 
-    const handleAddAttribute = () => {
-        if (attribute !== '') {
-            setAttributeAddOptions(false);
+    }
 
-            const newAttributes = [...attributesArrayModal]
-            newAttributes[newAttributes.length] = attribute
+    const handleEditOptionInput =(e,index)=>{
+        const editedOptions = newQuestion.options.map((v,i)=>{
+            return i===index ? e.target.value : v
+        })
 
-            setAttributesArrayModal(newAttributes)
+        const newOption = { ...newQuestion } 
+        newOption.options = editedOptions  
+        setNewQuestion(newOption)     
+    }
+
+    const handleDisplayQuestionModelOptions = () => {
+        if (newQuestion.questionType === 'Dropdown') {
+            return <>
+                <p>Values</p>
+                {
+                    newQuestion.options.map((v, i) => {
+                        return <div className="row pb-1 align-items-center" key={i}>
+                            <div className="col-9">
+                                {
+                                    questionEdit ?
+                                        <input type="text" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e)=>handleEditOptionInput(e,i)} />
+                                        :
+                                        `${i + 1} .${v}`
+                                }
+                            </div>
+                            <div className="col-3">
+                                <button type="button" className="btn text-danger" onClick={() => handleDeleteOption(i)}>Delete</button>
+                            </div>
+                        </div>
+                    })
+                }
+            </>
+        }
+        else if (newQuestion.questionType === 'Numeric' && newQuestion.condition !== '') {
+            return <>
+                <p>Values</p>
+                {
+                    newQuestion.options.map((v, i) => {
+                        return <div className="row pb-1 align-items-center" key={i}>
+                            <div className="col-9">
+                            {
+                                    questionEdit ?
+                                        <input type="number" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e)=>handleEditOptionInput(e,i)} />
+                                        :
+                                        `${i + 1} .${v}`
+                                }
+                            </div>
+                            <div className="col-3">
+                                <button type="button" className="btn text-danger" onClick={() => handleDeleteOption(i)}>Delete</button>
+                            </div>
+                        </div>
+                    })
+                }
+            </>
+        }
+        else {
+            if (newQuestion.questionType === 'Values' && newQuestion.condition !== '') {
+                return <>
+                    <p>Values</p>
+                    {
+                        newQuestion.options.map((v, i) => {
+                            return <div className="row pb-1 align-items-center" key={i}>
+                                <div className="col-9">
+                                     {
+                                    questionEdit ?
+                                        <input type="text" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e)=>handleEditOptionInput(e,i)} />
+                                        :
+                                        `${i + 1} .${v}`
+                                }
+                                </div>
+                                <div className="col-3">
+                                    <button type="button" className="btn text-danger" onClick={() => handleDeleteOption(i)}>Delete</button>
+                                </div>
+                            </div>
+                        })
+                    }
+                </>
+            }
         }
     }
 
-    const handleDeleteAttribute = (index) => {
-        const deletedAttribute = attributesArrayModal.filter((v, i) => {
-            return i !== index
-        })
+    const handleGetOptionsFromClient = () => {
+        if (newQuestion.questionType === 'Dropdown') {
+            return <>
+                {questionModalError && newQuestion.options.length === 0 ? <p className="text-danger pt-3">Options required</p> : null}
 
-        setAttributesArrayModal(deletedAttribute)
+                <p className="text-decoration-underline cursor-pointer pt-1" onClick={() => {
+                    setOption('')
+                    setQuestionDialogAddOptions(true)
+                }}>Click here to add Options</p>
+            </>
+        }
+        else if (newQuestion.questionType === 'Values' && newQuestion.condition !== '') {
+            if (newQuestion.options.length === 0) {
+                return <>
+                    {questionModalError && newQuestion.options.length === 0 ? <p className="text-danger pt-3">Options required</p> : null}
+
+                    <p className="text-decoration-underline cursor-pointer pt-1" onClick={() => {
+                        setOption('')
+                        setQuestionDialogAddOptions(true)
+                    }}>Click here to add Options</p>
+                </>
+            }
+        }
+        else {
+            if (newQuestion.questionType === 'Numeric' && newQuestion.condition !== '') {
+                if (newQuestion.options.length === 0) {
+                    return <>
+                        {questionModalError && newQuestion.options.length === 0 ? <p className="text-danger pt-3">Options required</p> : null}
+
+                        <p className="text-decoration-underline cursor-pointer pt-1" onClick={() => {
+                            setOption('')
+                            setQuestionDialogAddOptions(true)
+                        }}>Click here to add Options</p>
+                    </>
+                }
+            }
+        }
     }
 
+
     const handleSaveAttributesModal = () => {
-        setAttributesArray(attributesArrayModal);
-        document.getElementById('closeAttributeModel').click()
+        const checkAnythingEmpty = attributesArrayModal.filter((v) => {
+            return v === ''
+        })
+        if (checkAnythingEmpty.length === 0) {
+            setAttributesArray(attributesArrayModal);
+            document.getElementById('closeAttributeModel').click()
+        }
+    }
+
+    const handleEditArrtibuteInput = (e, index) => {
+        const editedAttribute = attributesArrayModal.map((v, i) => {
+            return i === index ? e.target.value : v
+        })
+
+        setAttributesArrayModal(editedAttribute)
     }
 
     return (
@@ -479,11 +626,11 @@ const ProductDetails = () => {
                                             </div>
                                             <div className="col text-end pe-0">
                                                 <button type="button" className="btn btn-primary py-1 px-3 button-font-size rounded-1" data-bs-toggle="modal" data-bs-target="#questionModel" id='questionModelBox' onClick={questionEdit ? null : handleOpenQuestionModel}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-plus me-2" viewBox="0 0 16 16">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-folder-plus me-2" viewBox="0 0 16 16">
                                                         <path d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z" />
                                                         <path d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5" />
                                                     </svg>
-                                                    Add
+                                                    Add & Edit
                                                 </button>
                                             </div>
                                         </div>
@@ -494,24 +641,35 @@ const ProductDetails = () => {
                                                     {
                                                         questionArray.length > 0 ?
                                                             questionArray.map((value, index) => {
-                                                                return <div className="col-12 row align-items-center py-2" key={index}>
+                                                                return <div className="col-12 row align-items-center py-2 border-bottom" key={index}>
                                                                     <div className="col-7">
                                                                         <p className="text-gray ">{index + 1}. {value.question}</p>
                                                                     </div>
                                                                     <div className="col-4">
-                                                                        {handleDynamicQuestionType(value.questionType, value.options)}
+                                                                        <input type="text" value={value.questionType} className="form-control w-100" />
                                                                     </div>
                                                                     <div className="col-1 cursor-pointer" onClick={() => handleQuestionModelEdit(value, index)}>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
                                                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                                                                         </svg>
+                                                                    </div>
+                                                                    {
+                                                                        value.questionType !== "Dropdown" ?
+                                                                            <div className="col-5 pt-3">
+                                                                                <input type="text" value={value.condition} className="form-control w-100" />
+                                                                            </div>
+                                                                            :
+                                                                            <div className="col-5"></div>
+                                                                    }
+                                                                    <div className="col-6 pt-3">
+                                                                        {handleDynamicQuestionType(value.questionType, value.condition, value.options)}
                                                                     </div>
                                                                 </div>
                                                             })
                                                             :
                                                             <div className="row justify-content-center text-center">
-                                                                <img src={require('../Component/assets/two.png')} className="product-details-no-data-img" />
+                                                                <img src={require('../Component/assets/two.png')} className="product-details-no-data-img" alt="no data found" />
                                                                 <h6 className="pt-3">Start by adding a question</h6>
                                                                 <p>Click on the button at the top to add a new question</p>
                                                             </div>
@@ -530,12 +688,12 @@ const ProductDetails = () => {
                                                 <h6 className="fw-bold mb-0">Add Attribute</h6>
                                             </div>
                                             <div className="col text-end pe-0">
-                                                <button type="button" className="btn btn-primary py-1 px-3 button-font-size rounded-1" data-bs-toggle="modal" data-bs-target="#attributeModel" id='attributeModelBox'>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder-plus me-2" viewBox="0 0 16 16">
+                                                <button type="button" className="btn btn-primary py-1 px-3 button-font-size rounded-1" data-bs-toggle="modal" data-bs-target="#attributeModel" id='attributeModelBox' onClick={() => setAttributesArrayModal(attributesArray)}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-folder-plus me-2" viewBox="0 0 16 16">
                                                         <path d="m.5 3 .04.87a2 2 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2m5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19q-.362.002-.683.12L1.5 2.98a1 1 0 0 1 1-.98z" />
                                                         <path d="M13.5 9a.5.5 0 0 1 .5.5V11h1.5a.5.5 0 1 1 0 1H14v1.5a.5.5 0 1 1-1 0V12h-1.5a.5.5 0 0 1 0-1H13V9.5a.5.5 0 0 1 .5-.5" />
                                                     </svg>
-                                                    Add & Edit
+                                                    Edit
                                                 </button>
                                             </div>
                                         </div>
@@ -548,13 +706,13 @@ const ProductDetails = () => {
                                                             <div className="row gy-3">
                                                                 {attributesArray.map((attributes, attributeIndex) => {
                                                                     return <div className="col-6" key={attributeIndex}>
-                                                                        <input type="text" value={attributes} className="border-0 py-2 px-2 rounded-1 w-100" />
+                                                                        <input type="text" value={attributes} className="border-0 py-2 px-2 rounded-1 w-100 pe-none" />
                                                                     </div>
                                                                 })}
                                                             </div>
                                                             :
                                                             <div className="row justify-content-center text-center">
-                                                                <img src={require('../Component/assets/two.png')} className="product-details-no-data-img" />
+                                                                <img src={require('../Component/assets/two.png')} className="product-details-no-data-img" alt="no data found" />
                                                                 <h6 className="pt-3">Start by adding a question</h6>
                                                                 <p>Click on the button at the top to add a new question</p>
                                                             </div>
@@ -572,55 +730,52 @@ const ProductDetails = () => {
             </div>
 
             {/* Add question modal  */}
-            <div class="modal fade" id="questionModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-md">
-                    <div class="modal-content paragraph-font-size px-4 py-2">
-                        <div class="modal-header border-0">
-                            <h5 class="modal-title fw-bold" id="staticBackdropLabel">Add Question</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeQuestionModel" onClick={() => setQuestionEdit(false)}></button>
+            <div className="modal fade" id="questionModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-md">
+                    <div className="modal-content paragraph-font-size px-4 py-2">
+                        <div className="modal-header border-0">
+                            <h5 className="modal-title fw-bold" id="staticBackdropLabel">Add Question</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeQuestionModel" onClick={() => setQuestionEdit(false)}></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <div className="py-3 row align-items-start">
-                                <div className="col-8">
-                                    <input type="text" className={`form-control rounded-0 border-0 border-bottom ${questionModalError && newQuestion.question === '' ? "border-danger" : "border-dark"}`} value={newQuestion.question} onChange={(e) => setNewQuestion({ ...newQuestion, question: e.target.value })} />
+                                <div className="col-12">
+                                    <label htmlFor="modalQuestion">Question</label>
+                                    <input type="text" id="modalQuestion" className={`form-control rounded-2 mt-2 rounded-2 ${questionModalError && newQuestion.question === '' ? "border-danger" : "border-gray"}`} value={newQuestion.question} onChange={(e) => setNewQuestion({ ...newQuestion, question: e.target.value })} />
                                 </div>
-                                <div className="col-4">
-                                    <select className={`${questionModalError && newQuestion.questionType === '' ? "border-danger" : "border-gray"} form-select selecctBox-font-size py-1 border-1 py-1 rounded-1 w-100`} value={newQuestion.questionType} onChange={(e) => handleSelectBox(e)}>
-                                        <option value="">Select</option>
-                                        <option value="Dropdown">Dropdown</option>
-                                        <option value="Checkbox">Checkbox</option>
-                                        <option value="Short answer">Short answer</option>
-                                        <option value="Radial option">Radial option</option>
-                                    </select>
+                                <div className="col-12 row">
+                                    <div className="col-6 mt-3">
+                                        <label htmlFor="modalType">Type</label>
+                                        <select id="modalType" className={`${questionModalError && newQuestion.questionType === '' ? "border-danger" : "border-gray"} mt-2 form-select selecctBox-font-size border-1 rounded-1 w-100`} value={newQuestion.questionType} onChange={(e) => handleSelectBox(e)}>
+                                            <option value="">Select</option>
+                                            <option value="Dropdown">Dropdown</option>
+                                            <option value="Numeric">Numeric</option>
+                                            <option value="Values">Options</option>
+                                        </select>
+                                    </div>
+
+                                    {handleConditions()}
                                 </div>
                             </div>
 
                             <div className="pt-3 ps-0">
-                                {
-                                    newQuestion.questionType !== '' && newQuestion.questionType !== 'Short answer' ?
-                                        newQuestion.options.map((v, i) => {
-                                            return <div className="row pb-1 align-items-center" key={i}>
-                                                <div className="col-9">
-                                                    {i + 1}.{v}
-                                                </div>
-                                                <div className="col-3">
-                                                    <button type="button" className="btn text-danger" onClick={() => handleDeleteOption(i)}>Delete</button>
-                                                </div>
-                                            </div>
-                                        })
-                                        :
-                                        null
-                                }
+                                {handleDisplayQuestionModelOptions()}
 
                                 {
                                     qestionDialogAddOptions ?
                                         <div className="col-12 row ">
                                             <div className="col-11">
-                                                <input type="text" className="form-control rounded-0 border-0 border-bottom border-dark w-100" onChange={(e) => setOption(e.target.value)} />
+                                                {
+                                                    newQuestion.questionType === "Numeric" ?
+                                                        <input type="number" className="form-control rounded-2 border-gray w-100" onChange={(e) => setOption(e.target.value)} />
+                                                        :
+                                                        <input type="text" className="form-control rounded-2 border-gray w-100" onChange={(e) => setOption(e.target.value)} />
+
+                                                }
                                             </div>
                                             <div className="col-1">
-                                                <button type="button" class="btn rounded-1" onClick={() => handleAddOptions()}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
+                                                <button type="button" className="btn rounded-1" onClick={() => handleAddOptions()}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-floppy" viewBox="0 0 16 16">
                                                         <path d="M11 2H9v3h2z" />
                                                         <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
                                                     </svg>
@@ -629,97 +784,55 @@ const ProductDetails = () => {
                                         </div>
                                         :
                                         <div>
-                                            {
-                                                newQuestion.questionType !== '' && newQuestion.questionType !== 'Short answer' ?
-                                                    <>
-                                                        {questionModalError && newQuestion.options.length === 0 ? <p className="text-danger pt-3">Options required</p> : null}
-
-                                                        <p className="text-decoration-underline cursor-pointer pt-1" onClick={() => {
-                                                            setOption('')
-                                                            setQuestionDialogAddOptions(true)
-                                                        }}>Click here to add Options</p>
-                                                    </>
-                                                    :
-                                                    null
-                                            }
+                                            {handleGetOptionsFromClient()}
                                         </div>
                                 }
                             </div>
 
-                            <div class="pt-3">
-                                <label for="questionTooltipInput" class="form-label">Tooltip</label>
+                            <div className="pt-3">
+                                <label for="questionTooltipInput" className="form-label">Tooltip</label>
                                 <input type="text" class={`form-control ${questionModalError && newQuestion.tooltip === '' ? "border-danger" : "border-gray"}`} id="questionTooltipInput" value={newQuestion.tooltip} onChange={(e) => setNewQuestion({ ...newQuestion, tooltip: e.target.value })} />
                             </div>
                         </div>
-                        <div class="modal-footer border-0">
+                        <div className="modal-footer border-0">
                             {
                                 questionEdit ?
-                                    <button type="button" class="btn btn-primary rounded-1" onClick={handleUpdateEditQuestion}>Update</button>
+                                    <button type="button" className="btn btn-primary rounded-1" onClick={handleUpdateEditQuestion}>Update</button>
                                     :
-                                    <button type="button" class="btn btn-primary rounded-1" onClick={handleSaveQuestion}>Save</button>
+                                    <button type="button" className="btn btn-primary rounded-1" onClick={handleSaveQuestion}>Save</button>
                             }
                         </div>
                     </div>
                 </div>
             </div>
 
+
+
             {/* Add Attribute modal  */}
-            <div class="modal fade" id="attributeModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-md">
-                    <div class="modal-content paragraph-font-size px-4 py-2">
-                        <div class="modal-header border-0">
-                            <h5 class="modal-title fw-bold" id="staticBackdropLabel">Add & Edit Attribute</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAttributeModel"></button>
+            <div className="modal fade" id="attributeModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-md">
+                    <div className="modal-content paragraph-font-size px-4 py-2">
+                        <div className="modal-header border-0">
+                            <h5 className="modal-title fw-bold" id="staticBackdropLabel">Add & Edit Attribute</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAttributeModel"></button>
                         </div>
-                        <div class="modal-body my-3 mb-5">
-                            <div>
+                        <div className="modal-body my-3 mb-5">
+                            <div className="row pb-1 gy-3 align-items-center" >
                                 {
                                     attributesArrayModal.map((v, i) => {
-                                        return <div className="row pb-1 align-items-center" key={i}>
-                                            <div className="col-9">
-                                                {i + 1}.{v}
-                                            </div>
-                                            <div className="col-3">
-                                                <button type="button" className="btn text-danger" onClick={() => handleDeleteAttribute(i)}>Delete</button>
-                                            </div>
+                                        return <div className="col-6" key={i}>
+                                            <input type="text" className={`form-control ${v === '' ? 'border-danger' : ''}`} value={v} onChange={(e) => handleEditArrtibuteInput(e, i)} />
                                         </div>
                                     })
                                 }
-
-                                {
-                                    attributeAddOptions ?
-                                        <div className="col-12 row ">
-                                            <div className="col-11">
-                                                <input type="text" className="form-control rounded-0 border-0 border-bottom border-dark w-100" onChange={(e) => setAttribute(e.target.value)} />
-                                            </div>
-                                            <div className="col-1">
-                                                <button type="button" class="btn rounded-1" onClick={() => handleAddAttribute()}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
-                                                        <path d="M11 2H9v3h2z" />
-                                                        <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        :
-                                        attributesArrayModal.length < 4 ?
-                                            <div>
-                                                <p className="text-decoration-underline cursor-pointer pt-1" onClick={() => {
-                                                    setAttribute('')
-                                                    setAttributeAddOptions(true)
-                                                }}>Click here to add Attributes</p>
-                                            </div>
-                                            :
-                                            null
-                                }
                             </div>
                         </div>
-                        <div class="modal-footer border-0">
+                        <div className="modal-footer border-0">
                             {
                                 questionEdit ?
-                                    <button type="button" class="btn btn-primary rounded-1" onClick={handleSaveAttributesModal}>Update</button>
+                                    <button type="button" className="btn btn-primary rounded-1" onClick={handleSaveAttributesModal}>Update</button>
                                     :
-                                    <button type="button" class="btn btn-primary rounded-1" onClick={handleSaveAttributesModal}>Save</button>
+                                    <button type="button" className="btn btn-primary rounded-1" onClick={handleSaveAttributesModal}>Save</button>
                             }
                         </div>
                     </div>
