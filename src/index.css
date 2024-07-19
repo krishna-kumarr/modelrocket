@@ -412,3 +412,7 @@ code {
   height: 7rem;
   width: 11rem !important;
 }
+
+.table-verticle-align{
+  vertical-align: bottom;
+}

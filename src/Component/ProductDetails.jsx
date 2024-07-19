@@ -89,11 +89,11 @@ const ProductDetails = () => {
 
     const handleSelectClient = (e) => {
         setSelectedClient(e.target.value);
-        const selectedClientData = array.filter((v)=>{
+        const selectedClientData = array.filter((v) => {
             return v.clientName === e.target.value ? v : null
-        }) 
+        })
 
-        setDisplayAccordionData(selectedClientData.length>0 ? selectedClientData[0].data : [])
+        setDisplayAccordionData(selectedClientData.length > 0 ? selectedClientData[0].data : [])
     }
 
     useEffect(() => {
@@ -297,9 +297,6 @@ const ProductDetails = () => {
         if (newQuestion.question === '') {
             setQuestionModalError(true);
         }
-        else if (newQuestion.tooltip === '') {
-            setQuestionModalError(true);
-        }
         else if (newQuestion.questionType === '') {
             setQuestionModalError(true);
         }
@@ -348,16 +345,31 @@ const ProductDetails = () => {
                     break;
             }
         } else {
-            console.log(condition, options)
             switch (condition) {
                 case "<":
-                    return <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 w-100" />
+                    return  <div className="row">
+                        <span><span className="fw-bold pe-2">Value:</span>
+                            <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 pe-none" />
+                        </span>
+                    </div>
                 case "<=":
-                    return <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 w-100" />
+                    return  <div className="row">
+                        <span><span className="fw-bold pe-2">Value:</span>
+                            <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 pe-none" />
+                        </span>
+                    </div>
                 case ">":
-                    return <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 w-100" />
+                    return <div className="row">
+                        <span><span className="fw-bold pe-2">Value:</span>
+                            <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 pe-none" />
+                        </span>
+                    </div>
                 case ">=":
-                    return <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 w-100" />
+                    return  <div className="row">
+                        <span><span className="fw-bold pe-2">Value:</span>
+                            <input type="number" value={options} className="border-1 border-gray py-2 px-2 rounded-1 pe-none" />
+                        </span>
+                    </div>
                 default:
                     break;
             }
@@ -404,9 +416,6 @@ const ProductDetails = () => {
 
     const handleUpdateEditQuestion = () => {
         if (newQuestion.question === '') {
-            setQuestionModalError(true);
-        }
-        else if (newQuestion.tooltip === '') {
             setQuestionModalError(true);
         }
         else if (newQuestion.questionType === '') {
@@ -471,21 +480,34 @@ const ProductDetails = () => {
             return <>
                 <p>Values</p>
                 {
-                    newQuestion.options.map((v, i) => {
-                        return <div className="row pb-1 align-items-center" key={i}>
-                            <div className="col-9">
-                                {
-                                    questionEdit ?
-                                        <input type="text" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e) => handleEditOptionInput(e, i)} />
-                                        :
-                                        `${i + 1} .${v}`
-                                }
+                    newQuestion.options.length > 0 ?
+                        questionEdit ?
+                            <div className="col-12 mb-3">
+                                {newQuestion.options.map((v, i) => {
+                                    return <div className="row">
+                                        <div className="col-9">
+                                            <input type="text" className="form-control rounded-2 border-gray w-100" value={v} onChange={(e) => handleEditOptionInput(e, i)} />
+                                        </div>
+                                        <div className="col-3">
+                                            <button type="button" className="btn text-danger" onClick={() => handleDeleteOption(i)}>Delete</button>
+                                        </div>
+                                    </div>
+                                })}
                             </div>
-                            <div className="col-3">
-                                <button type="button" className="btn text-danger" onClick={() => handleDeleteOption(i)}>Delete</button>
-                            </div>
-                        </div>
-                    })
+                            :
+                            <table className="table">
+                                <tbody>
+                                    {newQuestion.options.map((v, i) => {
+                                        return <tr className="table-verticle-align">
+                                            <th scope="row">{i + 1}</th>
+                                            <td>{v}</td>
+                                            <td className="text-end"><button type="button" className="btn text-danger py-0" onClick={() => handleDeleteOption(i)}>Delete</button></td>
+                                        </tr>
+                                    })}
+                                </tbody>
+                            </table>
+                        :
+                        null
                 }
             </>
         }
@@ -542,10 +564,10 @@ const ProductDetails = () => {
             return <>
                 {questionModalError && newQuestion.options.length === 0 ? <p className="text-danger pt-3">Options required</p> : null}
 
-                <p className="text-decoration-underline cursor-pointer pt-1" onClick={() => {
+                <button type="button" className="btn btn-secondary button-font-size rounded-2 pt-1" onClick={() => {
                     setOption('')
                     setQuestionDialogAddOptions(true)
-                }}>Click here to add Options</p>
+                }}>Click here to add Options</button>
             </>
         }
         else if (newQuestion.questionType === 'Values' && newQuestion.condition !== '') {
@@ -553,10 +575,10 @@ const ProductDetails = () => {
                 return <>
                     {questionModalError && newQuestion.options.length === 0 ? <p className="text-danger pt-3">Options required</p> : null}
 
-                    <p className="text-decoration-underline cursor-pointer pt-1" onClick={() => {
+                    <button type="button" className="btn btn-secondary button-font-size rounded-2 pt-1" onClick={() => {
                         setOption('')
                         setQuestionDialogAddOptions(true)
-                    }}>Click here to add Options</p>
+                    }}>Click here to add Options</button>
                 </>
             }
         }
@@ -566,10 +588,10 @@ const ProductDetails = () => {
                     return <>
                         {questionModalError && newQuestion.options.length === 0 ? <p className="text-danger pt-3">Options required</p> : null}
 
-                        <p className="text-decoration-underline cursor-pointer pt-1" onClick={() => {
+                        <button type="button" className="btn btn-secondary button-font-size rounded-2 pt-1" onClick={() => {
                             setOption('')
                             setQuestionDialogAddOptions(true)
-                        }}>Click here to add Options</p>
+                        }}>Click here to add Options</button>
                     </>
                 }
             }
@@ -678,30 +700,41 @@ const ProductDetails = () => {
                                                     {
                                                         questionArray.length > 0 ?
                                                             questionArray.map((value, index) => {
-                                                                return <div className="col-12 row align-items-center py-2 border-bottom" key={index}>
-                                                                    <div className="col-7">
-                                                                        <p className="text-gray ">{index + 1}. {value.question}</p>
+                                                                return <div className="col-12 row py-2" key={index}>
+                                                                    <div className="col-11">
+                                                                        <h6 className="fw-bold">{index + 1}.Question:</h6>
+                                                                        <p className="text-gray ps-3">{value.question}</p>
                                                                     </div>
-                                                                    <div className="col-4">
-                                                                        <input type="text" value={value.questionType} className="form-control w-100" />
-                                                                    </div>
+
                                                                     <div className="col-1 cursor-pointer" onClick={() => handleQuestionModelEdit(value, index)}>
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
                                                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                                                                         </svg>
                                                                     </div>
+
+                                                                    <div className="col-6">
+                                                                        <p className="text-gray ps-3"><span className="fw-bold pe-2">Type:</span>{value.questionType}</p>
+                                                                    </div>
+
                                                                     {
                                                                         value.questionType !== "Dropdown" ?
-                                                                            <div className="col-5 pt-3">
-                                                                                <input type="text" value={value.condition} className="form-control w-100" />
+                                                                            <div className="col-6">
+                                                                                <p className="text-gray ps-3"><span className="fw-bold pe-2">Condition:</span>{value.condition}</p>
                                                                             </div>
                                                                             :
-                                                                            <div className="col-5"></div>
+                                                                            null
                                                                     }
-                                                                    <div className="col-6 pt-3">
+                                                                    <div className="col-6">
+                                                                        <div className="ps-3">
                                                                         {handleDynamicQuestionType(value.questionType, value.condition, value.options)}
+                                                                        </div>
                                                                     </div>
+
+                                                                    <div className="col-6 pt-2">
+                                                                        <p className="text-gray ps-3"><span className="fw-bold pe-2">Tooltip:</span>{value.tooltip!=='' ? value.tooltip : "tooltip content is empty"}</p>
+                                                                    </div>
+
                                                                 </div>
                                                             })
                                                             :
@@ -775,7 +808,7 @@ const ProductDetails = () => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeQuestionModel" onClick={() => setQuestionEdit(false)}></button>
                         </div>
                         <div className="modal-body">
-                            <div className="py-3 pt-1 row align-items-start">
+                            <div className="pt-1 row align-items-start">
                                 <div className="col-12 mb-4">
                                     <label htmlFor="modalType">Type</label>
                                     <select id="modalType" className={`${questionModalError && newQuestion.questionType === '' ? "border-danger" : "border-gray"} mt-2 form-select selecctBox-font-size border-1 rounded-1 w-100`} value={newQuestion.questionType} onChange={(e) => handleSelectBox(e)}>
@@ -839,7 +872,6 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </div>
-
 
 
             {/* Add Attribute modal  */}
