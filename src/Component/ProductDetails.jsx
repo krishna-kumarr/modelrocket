@@ -294,6 +294,8 @@ const ProductDetails = () => {
     }
 
     const handleSaveQuestion = () => {
+        setQuestionDialogAddOptions(false)
+
         if (newQuestion.question === '') {
             setQuestionModalError(true);
         }
@@ -301,6 +303,9 @@ const ProductDetails = () => {
             setQuestionModalError(true);
         }
         else if (newQuestion.questionType === 'Numeric' && newQuestion.condition === '') {
+            setQuestionModalError(true);
+        }
+        else if ((newQuestion.questionType == 'Dropdown' || newQuestion.questionType == 'Values') && newQuestion.options.length === 0) {
             setQuestionModalError(true);
         }
         else {
@@ -413,6 +418,7 @@ const ProductDetails = () => {
 
     const handleQuestionModelEdit = (value, index) => {
         setQuestionEdit(true);
+        setQuestionDialogAddOptions(false)
         setQuestionEditIndex(index)
         setNewQuestion({
             question: value.question,
@@ -428,6 +434,8 @@ const ProductDetails = () => {
     }
 
     const handleUpdateEditQuestion = () => {
+        setQuestionDialogAddOptions(false)
+
         if (newQuestion.question === '') {
             setQuestionModalError(true);
         }
@@ -435,6 +443,9 @@ const ProductDetails = () => {
             setQuestionModalError(true);
         }
         else if ((newQuestion.questionType === 'Numeric' && newQuestion.condition === '') || newQuestion.options.length === 0) {
+            setQuestionModalError(true);
+        }
+        else if ((newQuestion.questionType == 'Dropdown' || newQuestion.questionType == 'Values') && newQuestion.options.length === 0) {
             setQuestionModalError(true);
         }
         else {
@@ -630,6 +641,14 @@ const ProductDetails = () => {
         setAttributesArrayModal(editedAttribute)
     }
 
+    const handleQuestionModelDelete = (deletionInd) =>{
+        const deletingQuestions = questionArray.filter((v,i)=>{
+            return i!==deletionInd
+        })
+
+        setQuestionArray(deletingQuestions)
+    }
+
     return (
         <>
             <div className="content-product-details-height w-100 overflowY">
@@ -639,7 +658,7 @@ const ProductDetails = () => {
                             <div className="card-header bg-transparent py-3">
                                 <div className="row align-items-center">
                                     <div className="col">
-                                        <p className="mb-0 fw-bold">{selectedClient === '' ? 'Client name' : selectedClient}</p>
+                                        <p className="mb-0 fw-bold">Select client</p>
                                     </div>
                                     <div className="col">
                                         <select class="form-select selecctBox-font-size" onChange={handleSelectClient}>
@@ -714,15 +733,22 @@ const ProductDetails = () => {
                                                         questionArray.length > 0 ?
                                                             questionArray.map((value, index) => {
                                                                 return <div className="col-12 row py-2 border-bottom pt-3" key={index}>
-                                                                    <div className="col-11">
+                                                                    <div className="col-10">
                                                                         <h6 className="fw-bold">{index + 1}.Question:</h6>
                                                                         <p className="text-gray ps-3">{value.question}</p>
                                                                     </div>
 
-                                                                    <div className="col-1 cursor-pointer" onClick={() => handleQuestionModelEdit(value, index)}>
+                                                                    <div className="col-1 cursor-pointer text-end" onClick={() => handleQuestionModelEdit(value, index)}>
                                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">
                                                                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                                                        </svg>
+                                                                    </div>
+
+                                                                    <div className="col-1 cursor-pointer" onClick={() => handleQuestionModelDelete(index)}>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
                                                                         </svg>
                                                                     </div>
 
@@ -871,7 +897,7 @@ const ProductDetails = () => {
 
                             <div className="pt-3">
                                 <label for="questionTooltipInput" className="form-label">Tooltip</label>
-                                <input type="text" class={`form-control ${questionModalError && newQuestion.tooltip === '' ? "border-danger" : "border-gray"}`} id="questionTooltipInput" value={newQuestion.tooltip} onChange={(e) => setNewQuestion({ ...newQuestion, tooltip: e.target.value })} />
+                                <input type="text" class={`form-control`} id="questionTooltipInput" value={newQuestion.tooltip} onChange={(e) => setNewQuestion({ ...newQuestion, tooltip: e.target.value })} />
                             </div>
                         </div>
                         <div className="modal-footer border-0">
