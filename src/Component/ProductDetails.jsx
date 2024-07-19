@@ -5,7 +5,8 @@ const ProductDetails = () => {
     const [breadcum, setBreadcum] = useState([]);
     const [displayAccordionData, setDisplayAccordionData] = useState([]);
     const [selectedClient, setSelectedClient] = useState('');
-    const [clients, setClients] = useState(["Toyato", "Tata", "Maruti", "Hyundai"])
+    const [clients, setClients] = useState(["Toyato", "Tata", "Maruti", "Hyundai"]);
+    const [updateButton, setUpdateButton] = useState(false);
     const array = [
         {
             clientName: 'Toyato', data: [
@@ -66,6 +67,7 @@ const ProductDetails = () => {
         }
     ]
 
+
     // question modal box 
     const [qestionDialogAddOptions, setQuestionDialogAddOptions] = useState(false);
     const [option, setOption] = useState('');
@@ -94,8 +96,8 @@ const ProductDetails = () => {
         })
 
         setDisplayAccordionData(selectedClientData.length > 0 ? selectedClientData[0].data : []);
-        setAttributesArray(selectedClientData.length > 0 ? ['Carat', 'Clarity', 'Color', 'Cut']:[])
-        setAttributesArrayModal(selectedClientData.length > 0 ? ['Carat', 'Clarity', 'Color', 'Cut']:[])
+        setAttributesArray(selectedClientData.length > 0 ? ['Carat', 'Clarity', 'Color', 'Cut'] : [])
+        setAttributesArrayModal(selectedClientData.length > 0 ? ['Carat', 'Clarity', 'Color', 'Cut'] : [])
     }
 
     useEffect(() => {
@@ -317,6 +319,7 @@ const ProductDetails = () => {
             setQuestionArray(addNewQuestionList);
 
             document.getElementById('closeQuestionModel').click();
+            setUpdateButton(true)
         }
     }
 
@@ -324,7 +327,7 @@ const ProductDetails = () => {
         if (questionType === "Dropdown") {
             return <div className="row">
                 <span>
-                    <span className="fw-bold pe-2">Value:</span>
+                    <span className="fw-bold pe-2">Values:</span>
                     <select className="py-2 border-1 border-gray py-1 rounded-1 col-8" >
                         {
                             options.map((val, ind) => {
@@ -338,7 +341,7 @@ const ProductDetails = () => {
             switch (condition) {
                 case "in":
                     return <div className="row">
-                        <span><span className="fw-bold pe-2">Value:</span>
+                        <span><span className="fw-bold pe-2">Values:</span>
                             <select className="py-2 border-1 border-gray py-1 rounded-1 col-8" >
                                 {
                                     options.map((val, ind) => {
@@ -350,7 +353,7 @@ const ProductDetails = () => {
                     </div>
                 case "notin":
                     return <div className="row">
-                        <span><span className="fw-bold pe-2">Value:</span>
+                        <span><span className="fw-bold pe-2">Values:</span>
                             <select className="py-2 border-1 border-gray py-1 rounded-1 col-8" >
                                 {
                                     options.map((val, ind) => {
@@ -459,6 +462,7 @@ const ProductDetails = () => {
 
             setQuestionArray(updateQuestionList);
             document.getElementById('closeQuestionModel').click();
+            setUpdateButton(true)
         }
     }
 
@@ -550,7 +554,7 @@ const ProductDetails = () => {
         }
         else if (newQuestion.questionType === 'Numeric' && newQuestion.condition !== '') {
             return <>
-                <p className="mb-1">Values</p>
+                <p className="mb-1">Value</p>
                 {
                     newQuestion.options.map((v, i) => {
                         return <div className="row pb-1 align-items-center" key={i}>
@@ -614,18 +618,18 @@ const ProductDetails = () => {
                 <button type="button" className="btn btn-secondary button-font-size rounded-2 pt-1" onClick={() => {
                     setOption('')
                     setQuestionDialogAddOptions(true)
-                }}>Click here to add Options</button>
+                }}>Add Values</button>
             </>
         }
         else if (newQuestion.questionType === 'Values' && newQuestion.condition !== '') {
-                return <>
-                    {questionModalError && newQuestion.options.length === 0 ? <p className="text-danger pt-3">Options required</p> : null}
+            return <>
+                {questionModalError && newQuestion.options.length === 0 ? <p className="text-danger pt-3">Options required</p> : null}
 
-                    <button type="button" className="btn btn-secondary button-font-size rounded-2 pt-1" onClick={() => {
-                        setOption('')
-                        setQuestionDialogAddOptions(true)
-                    }}>Click here to add Options</button>
-                </>
+                <button type="button" className="btn btn-secondary button-font-size rounded-2 pt-1" onClick={() => {
+                    setOption('')
+                    setQuestionDialogAddOptions(true)
+                }}>Add Values</button>
+            </>
         }
         else {
             if (newQuestion.questionType === 'Numeric' && newQuestion.condition !== '') {
@@ -636,7 +640,7 @@ const ProductDetails = () => {
                         <button type="button" className="btn btn-secondary button-font-size rounded-2 pt-3" onClick={() => {
                             setOption('')
                             setQuestionDialogAddOptions(true)
-                        }}>Click here to add Options</button>
+                        }}>Add Values</button>
                     </>
                 }
             }
@@ -650,7 +654,9 @@ const ProductDetails = () => {
         })
         if (checkAnythingEmpty.length === 0) {
             setAttributesArray(attributesArrayModal);
-            document.getElementById('closeAttributeModel').click()
+            document.getElementById('closeAttributeModel').click();
+
+            setUpdateButton(true);
         }
     }
 
@@ -732,9 +738,18 @@ const ProductDetails = () => {
                                 <div className="card-body h-100 paragraph-font-size hideScollbar overflowY">
                                     {/* Add Questions */}
                                     <div className="col-12 pb-4">
+                                        {
+                                            updateButton ?
+                                                <div className="col-12 text-end mb-3">
+                                                    <button type="button" className="btn btn-primary button-font-size rounded-2 py-1" onClick={()=>setUpdateButton(false)}>Update</button>
+                                                </div>
+                                                :
+                                                null
+                                        }
+
                                         <div className="col-12 d-flex flex-wrap align-items-center">
                                             <div className="col">
-                                                <h6 className="fw-bold mb-0">Add Questions</h6>
+                                                <h6 className="fw-bold mb-0">Constrains</h6>
                                             </div>
                                             <div className="col text-end pe-0">
                                                 <button type="button" className="btn btn-primary py-1 px-3 button-font-size rounded-1" data-bs-toggle="modal" data-bs-target="#questionModel" id='questionModelBox' onClick={questionEdit ? null : handleOpenQuestionModel} disabled={displayAccordionData.length > 0 ? false : true}>
@@ -755,8 +770,8 @@ const ProductDetails = () => {
                                                             questionArray.map((value, index) => {
                                                                 return <div className="col-12 row py-2 border-bottom pt-3" key={index}>
                                                                     <div className="col-10">
-                                                                        <h6 className="fw-bold">{index + 1}.Question:</h6>
-                                                                        <p className="text-gray ps-3">{value.question}</p>
+                                                                        <h6 className="fw-bold">{index + 1}.</h6>
+                                                                        <p className="text-gray ps-3"><span className="fw-bold pe-2">Question:</span>{value.question}</p>
                                                                     </div>
 
                                                                     <div className="col-1 cursor-pointer text-end" onClick={() => handleQuestionModelEdit(value, index)}>
@@ -815,7 +830,7 @@ const ProductDetails = () => {
                                     <div className="col-12 pb-4">
                                         <div className="col-12 d-flex flex-wrap align-items-center">
                                             <div className="col">
-                                                <h6 className="fw-bold mb-0">Add Attribute</h6>
+                                                <h6 className="fw-bold mb-0">Attributes</h6>
                                             </div>
                                             <div className="col text-end pe-0">
                                                 <button type="button" className="btn btn-primary py-1 px-3 button-font-size rounded-1" data-bs-toggle="modal" data-bs-target="#attributeModel" id='attributeModelBox' onClick={() => setAttributesArrayModal(attributesArray)} disabled={displayAccordionData.length > 0 ? false : true}>
